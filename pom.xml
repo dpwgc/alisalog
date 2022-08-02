@@ -4,10 +4,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dpwgc</groupId>
-    <artifactId>AlisaLog</artifactId>
+    <artifactId>alisalog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>AlisaLog</name>
-    <description>AlisaLog</description>
 
     <packaging>pom</packaging>
 
