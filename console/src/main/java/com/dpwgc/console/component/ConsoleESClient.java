@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Component
-public class ESClient {
+public class ConsoleESClient {
 
     @Resource
     private ElasticsearchClient client;

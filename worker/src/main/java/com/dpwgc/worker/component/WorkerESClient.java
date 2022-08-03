@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @Component
-public class ESClient {
+public class WorkerESClient {
 
     @Resource
     private ElasticsearchClient client;

@@ -1,4 +1,4 @@
-package com.dpwgc.common.config;
+package com.dpwgc.console.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;

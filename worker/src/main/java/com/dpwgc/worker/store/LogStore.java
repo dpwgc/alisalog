@@ -1,6 +1,6 @@
 package com.dpwgc.worker.store;
 
-import com.dpwgc.worker.component.ESClient;
+import com.dpwgc.worker.component.WorkerESClient;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -9,9 +9,9 @@ import javax.annotation.Resource;
 public class LogStore {
 
     @Resource
-    ESClient esClient;
+    WorkerESClient workerEsClient;
 
     public void save(LogStoreModel logStoreModel) {
-        esClient.create(logStoreModel);
+        workerEsClient.create(logStoreModel);
     }
 }
