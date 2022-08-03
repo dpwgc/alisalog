@@ -1,20 +1,20 @@
 package com.dpwgc.worker.buffer;
 
-import com.dpwgc.common.model.LogMessageIn;
+import com.dpwgc.worker.store.LogStoreModel;
 import com.dpwgc.common.util.GzipUtil;
 import com.dpwgc.common.util.JsonUtil;
 import com.dpwgc.common.util.LogUtil;
-import com.dpwgc.worker.store.mapper.LogMapper;
+import com.dpwgc.worker.config.BufferConfig;
+import com.dpwgc.worker.store.LogStore;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Configuration;
-
+import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
-@Configuration
+@Component
 public class BufferConsumer implements InitializingBean {
 
     @Resource
-    LogMapper logMapper;
+    LogStore logStore;
 
     @Override
     public void afterPropertiesSet() {
@@ -22,7 +22,7 @@ public class BufferConsumer implements InitializingBean {
         for(int i = 0; i< BufferConfig.CONSUMER_NUMBER; i++) {
             //启动消费者线程
             new Thread(this::consume).start();
-            LogUtil.info("buffer consumer ["+i+"] start");
+            LogUtil.info("buffer consumer thread","buffer consumer ["+i+"] start");
         }
     }
 
@@ -38,9 +38,9 @@ public class BufferConsumer implements InitializingBean {
                     //解压
                     String log = GzipUtil.uncompress(zipLog);
                     //将日志信息写入es
-                    logMapper.save(JsonUtil.fromJson(log, LogMessageIn.class));
+                    logStore.save(JsonUtil.fromJson(log, LogStoreModel.class));
                 } catch (Exception e) {
-                    LogUtil.error("consume error: "+e);
+                    LogUtil.error("buffer consume error",e.toString());
                 }
             }
         }

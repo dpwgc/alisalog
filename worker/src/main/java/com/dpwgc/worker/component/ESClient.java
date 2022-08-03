@@ -1,9 +1,9 @@
-package com.dpwgc.worker.store.component;
+package com.dpwgc.worker.component;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
-import com.dpwgc.common.model.LogMessageIn;
+import com.dpwgc.worker.store.LogStoreModel;
 import com.dpwgc.common.util.JsonUtil;
 import com.dpwgc.common.util.LogUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +34,7 @@ public class ESClient {
             BooleanResponse booleanResponse = client.indices().exists(exists -> exists.index(indexName));
             return booleanResponse.value();
         } catch (Exception e) {
-            LogUtil.error("es exists index error: "+e);
+            LogUtil.error("es exists index error",e.toString());
             return false;
         }
     }
@@ -47,30 +47,30 @@ public class ESClient {
     public void createIndex(String indexName) {
         try {
             CreateIndexResponse indexResponse = client.indices().create(create -> create.index(indexName));
-            LogUtil.info("elasticsearch create index: "+indexResponse.index());
+            LogUtil.info("es create index",indexResponse.index());
         } catch (Exception e) {
-            LogUtil.error("es create index error: "+e);
+            LogUtil.error("es create index error",e.toString());
         }
     }
 
     /**
      * 插入日志
-     * @param logMessageIn 日志写入对象
+     * @param logStoreModel 日志写入对象
      */
-    public void insert(LogMessageIn logMessageIn) {
+    public void create(LogStoreModel logStoreModel) {
 
         //获取当天的存储索引名称
         String indexName = indexPrefix + LocalDate.now();
 
         //判断索引名称是否存在
         if (!existsIndex(indexName)) {
-            LogUtil.info("elasticsearch index does not exist");
+            LogUtil.info("existsIndex() return false","es index does not exist");
             createIndex(indexName);
         }
 
         try {
             //LogMessage转Json字符串
-            String json = JsonUtil.toJson(logMessageIn);
+            String json = JsonUtil.toJson(logStoreModel);
 
             //写入ES
             client.index(index -> index
@@ -78,7 +78,7 @@ public class ESClient {
                     .document(JsonUtil.fromJson(json,Map.class)));
 
         } catch (Exception e) {
-            LogUtil.error("es insert logMessage error: "+e);
+            LogUtil.error("es insert log error",e.toString());
         }
     }
 }

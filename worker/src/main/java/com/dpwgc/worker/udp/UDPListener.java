@@ -3,6 +3,7 @@ package com.dpwgc.worker.udp;
 import com.dpwgc.common.util.GzipUtil;
 import com.dpwgc.common.util.LogUtil;
 import com.dpwgc.worker.buffer.Buffer;
+import com.dpwgc.worker.config.UDPConfig;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -33,7 +34,7 @@ public class UDPListener implements ServletContextListener {
                 }
 
                 listener();
-                LogUtil.info("UDP listener start");
+                LogUtil.info("UDP listener thread","UDP listener start");
 
             } catch (SocketException e) {
                 e.printStackTrace();
@@ -62,14 +63,14 @@ public class UDPListener implements ServletContextListener {
                 Buffer.add(GzipUtil.compress(msg));
 
             } catch (IOException e) {
-                LogUtil.info("UDP listener error: "+e);
+                LogUtil.info("UDP listener error",e.toString());
             }
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        LogUtil.info("UDP close");
+        LogUtil.info("UDP close","UDP listener stop");
     }
 }
 

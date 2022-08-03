@@ -1,4 +1,4 @@
-package com.dpwgc.worker.udp;
+package com.dpwgc.worker.config;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
