@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 8001
   servlet:
     # 路由前缀
     context-path: /alisa
