@@ -1,11 +1,7 @@
 package com.dpwgc.console.mapper;
 
-import com.dpwgc.common.base.PageBase;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dpwgc.console.model.LogMessage;
 
-import java.util.List;
-
-public interface LogMapper {
-
-    PageBase<List<LogMessage>> search(String indexName, String keyword, Integer pageIndex, Integer pageSize);
+public interface LogMapper extends BaseMapper<LogMessage> {
 }

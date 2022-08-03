@@ -1,17 +1,21 @@
 package com.dpwgc.worker.store;
 
-import com.dpwgc.worker.component.WorkerESClient;
+import com.dpwgc.common.util.IdGenUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Component
 public class LogStore {
 
     @Resource
-    WorkerESClient workerEsClient;
+    LogMapper logMapper;
 
-    public void save(LogStoreModel logStoreModel) {
-        workerEsClient.create(logStoreModel);
+    public void save(List<LogStoreModel> logStoreModelList) {
+        for (LogStoreModel logStoreModel : logStoreModelList) {
+            logStoreModel.setId(IdGenUtil.uuid());
+            logMapper.insert(logStoreModel);
+        }
     }
 }

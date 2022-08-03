@@ -2,7 +2,7 @@ package com.dpwgc.worker.udp;
 
 import com.dpwgc.common.util.GzipUtil;
 import com.dpwgc.common.util.LogUtil;
-import com.dpwgc.worker.buffer.Buffer;
+import com.dpwgc.worker.buffer.BufferQueue;
 import com.dpwgc.worker.config.UDPConfig;
 
 import javax.servlet.ServletContextEvent;
@@ -60,7 +60,7 @@ public class UDPListener implements ServletContextListener {
                 msg = packet.getData();
 
                 //将日志信息压缩，再插入本地缓冲队列
-                Buffer.add(GzipUtil.compress(msg));
+                BufferQueue.add(GzipUtil.compress(msg));
 
             } catch (IOException e) {
                 LogUtil.info("UDP listener error",e.toString());

@@ -1,8 +1,12 @@
 server:
-  port: 9000
+  port: 9001
+  servlet:
+    # 路由前缀
+    context-path: /alisa
 
 spring:
   mvc:
+    # 兼容Swagger3
     pathmatch:
       matching-strategy: ant_path_matcher
 
@@ -22,10 +26,6 @@ spring:
       maxActive: 100
       minIdle: 10
       maxWait: 6000
-
-udp:
-  port: 9000
-  maxDataSize: 4096
 
 # MyBatis-Plus配置
 mybatis-plus:

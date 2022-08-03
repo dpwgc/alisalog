@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * 本地缓冲队列消费者服务
  */
 @Component
-public class Buffer implements InitializingBean {
+public class BufferQueue implements InitializingBean {
 
     //缓冲区
     public static ConcurrentLinkedQueue<String> BUFFER;

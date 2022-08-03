@@ -1,25 +1,12 @@
 package com.dpwgc.console.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 控制台日志输出
- */
 @Setter
 @Getter
-@ApiModel(value = "日志信息")
-@TableName("log")
-public class LogMessage {
-
-    /**
-     * 日志id（uuid）
-     */
-    @ApiModelProperty(value = "日志id")
-    private String id;
+public class QueryLogMessage {
 
     // ----- 机房信息（控制台精确检索） -----
 
@@ -52,7 +39,7 @@ public class LogMessage {
     /**
      * 跟踪id
      */
-    @ApiModelProperty(value = "跟踪id")
+    @ApiModelProperty(value = "分类所属应用id")
     private String traceId;
 
     /**
@@ -85,55 +72,31 @@ public class LogMessage {
     @ApiModelProperty(value = "查询过滤条件2")
     private String filter2;
 
-    // ----- 日志详细定位 -----
-
     /**
-     * 所属代码文件
-     */
-    @ApiModelProperty(value = "所属代码文件")
-    private String file;
-
-    /**
-     * 所属代码位置
-     */
-    @ApiModelProperty(value = "所属代码位置")
-    private String position;
-
-    // ----- 日志基本信息 -----
-
-    /**
-     * 日志等级（控制台精确检索）
+     * 日志等级
      */
     @ApiModelProperty(value = "日志等级")
     private Integer level;
 
-    /**
-     * 日志标签（作为预警埋点）
-     */
-    @ApiModelProperty(value = "日志标签")
-    private String tag;
+    // ----- 模糊查询 -----
 
     /**
-     * 日志标题（对日志的简短描述，控制台模糊检索）
+     * 搜索关键词
      */
-    @ApiModelProperty(value = "日志标题")
-    private String title;
+    @ApiModelProperty(value = "搜索关键词")
+    private String keyword;
 
-    /**
-     * 日志内容（日志详细内容，控制台模糊检索）
-     */
-    @ApiModelProperty(value = "日志内容")
-    private String content;
+    // ----- 时间区间检索 -----
 
-    /**
-     * 日志额外备注信息
-     */
-    @ApiModelProperty(value = "日志额外备注信息")
-    private String remarks;
+    @ApiModelProperty(value = "开始时间")
+    private Long LogTimeStart;
+    @ApiModelProperty(value = "结束时间")
+    private Long LogTimeEnd;
 
-    /**
-     * 记录时间（控制台区间检索）
-     */
-    @ApiModelProperty(value = "记录时间")
-    private Long logTime;
+    // ----- 分页检索 -----
+
+    @ApiModelProperty(value = "分页起始")
+    private Integer pageIndex;
+    @ApiModelProperty(value = "分页大小")
+    private Integer pageSize;
 }
