@@ -33,8 +33,9 @@ public class UDPListener implements ServletContextListener {
                     }
                 }
 
+                LogUtil.info("UDP listener thread","UDP listener port: "+UDPConfig.UDP_PORT);
+
                 listener();
-                LogUtil.info("UDP listener thread","UDP listener start");
 
             } catch (SocketException e) {
                 e.printStackTrace();

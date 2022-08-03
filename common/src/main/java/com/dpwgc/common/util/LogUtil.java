@@ -19,18 +19,18 @@ public class LogUtil {
     }
 
     public static void error(String title,String content) {
-        LOGGER.info(String.format("<title> %s <content> %s",title,content));
+        LOGGER.error(String.format("<title> %s <content> %s",title,content));
     }
 
     public static void warn(String title,String content) {
-        LOGGER.info(String.format("<title> %s <content> %s",title,content));
+        LOGGER.warn(String.format("<title> %s <content> %s",title,content));
     }
 
     public static void debug(String title,String content) {
-        LOGGER.info(String.format("<title> %s <content> %s",title,content));
+        LOGGER.debug(String.format("<title> %s <content> %s",title,content));
     }
 
     public static void trace(String title,String content) {
-        LOGGER.info(String.format("<title> %s <content> %s",title,content));
+        LOGGER.trace(String.format("<title> %s <content> %s",title,content));
     }
 }

@@ -11,7 +11,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     # clickhouse配置
     click:
-      driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+      driverClassName: com.clickhouse.jdbc.ClickHouseDriver
       url: jdbc:clickhouse://127.0.0.1:8123/alisa_log_product
       username: default
       password:
@@ -21,8 +21,12 @@ spring:
       maxWait: 6000
 
 udp:
-  port: 9000
+  port: 8500
   maxDataSize: 4096
+
+buffer:
+  consumer:
+    number: 3
 
 # MyBatis-Plus配置
 mybatis-plus:
