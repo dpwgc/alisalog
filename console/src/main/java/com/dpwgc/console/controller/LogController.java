@@ -3,7 +3,7 @@ package com.dpwgc.console.controller;
 import com.dpwgc.console.base.PageBase;
 import com.dpwgc.console.base.Result;
 import com.dpwgc.console.model.LogMessage;
-import com.dpwgc.console.model.QueryLogMessage;
+import com.dpwgc.console.model.QueryLog;
 import com.dpwgc.console.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,8 +26,8 @@ public class LogController {
      */
     @ApiOperation(value = "日志查询")
     @PostMapping(value = "queryLog")
-    public Result<PageBase<List<LogMessage>>> queryLog(QueryLogMessage queryLogMessage) {
-        return Result.getSuccessResult(logService.queryLog(queryLogMessage));
+    public Result<PageBase<List<LogMessage>>> queryLog(QueryLog queryLog) {
+        return Result.getSuccessResult(logService.queryLog(queryLog));
     }
 
 }

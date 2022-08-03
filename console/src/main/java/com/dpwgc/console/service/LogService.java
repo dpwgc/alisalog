@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dpwgc.console.base.PageBase;
 import com.dpwgc.console.model.LogMessage;
 import com.dpwgc.console.mapper.LogMapper;
-import com.dpwgc.console.model.QueryLogMessage;
+import com.dpwgc.console.model.QueryLog;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,54 +17,54 @@ public class LogService {
     @Resource
     LogMapper logMapper;
 
-    public PageBase<List<LogMessage>> queryLog(QueryLogMessage queryLogMessage) {
+    public PageBase<List<LogMessage>> queryLog(QueryLog queryLog) {
 
         //分页
-        Page<LogMessage> page = new Page<>(queryLogMessage.getPageIndex(), queryLogMessage.getPageSize());
+        Page<LogMessage> page = new Page<>(queryLog.getPageIndex(), queryLog.getPageSize());
 
         //查询
         QueryWrapper<LogMessage> queryWrapper = new QueryWrapper<>();
 
         //检索条件
-        if (queryLogMessage.getIdc().length() > 0){
-            queryWrapper.eq("idc", queryLogMessage.getIdc());
+        if (queryLog.getIdc().length() > 0){
+            queryWrapper.eq("idc", queryLog.getIdc());
         }
-        if (queryLogMessage.getHost().length() > 0){
-            queryWrapper.eq("host", queryLogMessage.getHost());
+        if (queryLog.getHost().length() > 0){
+            queryWrapper.eq("host", queryLog.getHost());
         }
-        if (queryLogMessage.getEnv().length() > 0){
-            queryWrapper.eq("env", queryLogMessage.getEnv());
+        if (queryLog.getEnv().length() > 0){
+            queryWrapper.eq("env", queryLog.getEnv());
         }
-        if (queryLogMessage.getAppId().length() > 0){
-            queryWrapper.eq("app_id", queryLogMessage.getAppId());
+        if (queryLog.getAppId().length() > 0){
+            queryWrapper.eq("app_id", queryLog.getAppId());
         }
-        if (queryLogMessage.getTraceId().length() > 0){
-            queryWrapper.eq("trace_id", queryLogMessage.getTraceId());
+        if (queryLog.getTraceId().length() > 0){
+            queryWrapper.eq("trace_id", queryLog.getTraceId());
         }
-        if (queryLogMessage.getModule().length() > 0){
-            queryWrapper.eq("module", queryLogMessage.getModule());
+        if (queryLog.getModule().length() > 0){
+            queryWrapper.eq("module", queryLog.getModule());
         }
-        if (queryLogMessage.getCategory().length() > 0){
-            queryWrapper.eq("category", queryLogMessage.getCategory());
+        if (queryLog.getCategory().length() > 0){
+            queryWrapper.eq("category", queryLog.getCategory());
         }
-        if (queryLogMessage.getSubCategory().length() > 0){
-            queryWrapper.eq("sub_category", queryLogMessage.getSubCategory());
+        if (queryLog.getSubCategory().length() > 0){
+            queryWrapper.eq("sub_category", queryLog.getSubCategory());
         }
-        if (queryLogMessage.getFilter1().length() > 0){
-            queryWrapper.eq("filter1", queryLogMessage.getFilter1());
+        if (queryLog.getFilter1().length() > 0){
+            queryWrapper.eq("filter1", queryLog.getFilter1());
         }
-        if (queryLogMessage.getFilter2().length() > 0){
-            queryWrapper.eq("filter2", queryLogMessage.getFilter2());
+        if (queryLog.getFilter2().length() > 0){
+            queryWrapper.eq("filter2", queryLog.getFilter2());
         }
-        if (queryLogMessage.getLevel() > 0){
-            queryWrapper.eq("level", queryLogMessage.getLevel());
+        if (queryLog.getLevel() > 0){
+            queryWrapper.eq("level", queryLog.getLevel());
         }
-        if (queryLogMessage.getKeyword().length() > 0){
-            queryWrapper.like("title", queryLogMessage.getKeyword());
-            queryWrapper.like("content", queryLogMessage.getKeyword());
+        if (queryLog.getKeyword().length() > 0){
+            queryWrapper.like("title", queryLog.getKeyword());
+            queryWrapper.like("content", queryLog.getKeyword());
         }
-        queryWrapper.ge("log_time", queryLogMessage.getLogTimeStart());
-        queryWrapper.lt("log_time", queryLogMessage.getLogTimeEnd());
+        queryWrapper.ge("log_time", queryLog.getLogTimeStart());
+        queryWrapper.lt("log_time", queryLog.getLogTimeEnd());
 
         //装配返回
         Page<LogMessage> logMessagePage = logMapper.selectPage(page,queryWrapper);

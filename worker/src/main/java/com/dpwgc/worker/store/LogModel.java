@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @TableName("log")
-public class LogStoreModel {
+public class LogModel {
 
     /**
      * 日志id（uuid）

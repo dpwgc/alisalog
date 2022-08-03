@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class QueryLogMessage {
+public class QueryLog {
 
     // ----- 机房信息（控制台精确检索） -----
 

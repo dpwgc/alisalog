@@ -1,10 +1,7 @@
 server:
-  port: 9000
+  port: 8000
 
 spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 
   application:
     name: worker
@@ -15,7 +12,7 @@ spring:
     # clickhouse配置
     click:
       driverClassName: ru.yandex.clickhouse.ClickHouseDriver
-      url: jdbc:clickhouse://127.0.0.1:8123/alisa_log
+      url: jdbc:clickhouse://127.0.0.1:8123/alisa_log_product
       username: default
       password:
       initialSize: 10

@@ -12,10 +12,10 @@ public class LogStore {
     @Resource
     LogMapper logMapper;
 
-    public void save(List<LogStoreModel> logStoreModelList) {
-        for (LogStoreModel logStoreModel : logStoreModelList) {
-            logStoreModel.setId(IdGenUtil.uuid());
-            logMapper.insert(logStoreModel);
+    public void save(List<LogModel> logModelList) {
+        for (LogModel logModel : logModelList) {
+            logModel.setId(IdGenUtil.uuid());
+            logMapper.insert(logModel);
         }
     }
 }
