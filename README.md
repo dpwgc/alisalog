@@ -1,5 +1,5 @@
 # Alisa Log
-## 基于ChickHouse存储的日志系统
+## 基于Java整合ChickHouse的分布式日志收集与检索系统
 
 ***
 
@@ -7,14 +7,15 @@
 当前已完成
 * UDP日志接收
 * HTTP日志接收
-* 日志查询
+* 监控台登录
+* 监控台日志查询
 
 ***
 
 ### 项目架构
 * common `通用基础模块`
 * router `路由中心`
-* console `控制台`
+* monitor `监控台`
 * worker `日志收集器`
 
 ***
@@ -47,7 +48,7 @@
       "file":"test.java",
       "position":"testService()",
       "level":3,
-      "tag":"test",
+      "tag":"test-0.0.1",
       "title":"test-title",
       "content":"hello world / hello world / hello world",
       "remarks":"hi",
@@ -67,7 +68,7 @@
       "file":"test.java",
       "position":"testService()",
       "level":3,
-      "tag":"test",
+      "tag":"test-0.0.1",
       "title":"test-title",
       "content":"hello world / hello world / hello world",
       "remarks":"hi",
@@ -84,7 +85,7 @@
 |------|---------|------|---------|
 | 8500 | worker  | UDP  | 接收小型日志  |
 | 8501 | worker  | HTTP | 接收大型日志  |
-| 8502 | console | HTTP | 提供控制台接口 |
+| 8502 | monitor | HTTP | 提供监控台接口 |
 | 8503 | router  | HTTP | 服务发现与注册 |
 ***
 
