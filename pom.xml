@@ -23,7 +23,7 @@
         <module>worker</module>
         <module>common</module>
         <module>router</module>
-        <module>console</module>
+        <module>monitor</module>
     </modules>
 
     <dependencies>

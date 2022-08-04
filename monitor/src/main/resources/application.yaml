@@ -1,9 +1,26 @@
 server:
-  port: 8501
+  port: 8502
+  servlet:
+    # 路由前缀
+    context-path: /monitor
+
+# 本地缓存（存储用户登录token）
+cache:
+  # 缓存过期时间（秒）
+  timeout: 300000
+
+router:
+  # 地址（多个路由中心地址用','隔开，例：http://127.0.0.1:8503,http://127.0.0.2:8503,http://127.0.0.3:8503）
+  url: http://127.0.0.1:8503
 
 spring:
+  mvc:
+    # 兼容Swagger3
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   application:
-    name: worker
+    name: monitor
 
   # 数据源配置
   datasource:
@@ -19,30 +36,6 @@ spring:
       maxActive: 100
       minIdle: 10
       maxWait: 6000
-
-# 心跳配置
-heartbeat:
-  # 该worker节点的外部访问IP
-  address: 127.0.0.1
-  # 该worker节点发送心跳的周期（单位：秒）
-  cycle: 3
-  # 连接的路由中心
-  router:
-    # 地址（多个路由中心地址用','隔开，例：http://127.0.0.1:8503,http://127.0.0.2:8503,http://127.0.0.3:8503）
-    url: http://127.0.0.1:8503
-
-# UDP配置
-udp:
-  port: 8500
-  # 单个UDP数据包的大小限制（单位：字节）
-  maxDataSize: 4096
-
-# 缓冲队列配置
-buffer:
-  # 消费者配置
-  consumer:
-    # 消费线程数量
-    number: 3
 
 # MyBatis-Plus配置
 mybatis-plus:

@@ -37,15 +37,19 @@ public class Heartbeat implements InitializingBean {
         if (url == null || url.length() == 0) {
             return;
         }
+        String[] urls = url.split(",");
         new Thread(() -> {
             while (true){
                 try {
                     //心跳周期间隔休眠
                     Thread.sleep(cycle*1000);
-                    //发送心跳
-                    String res = httpUtil.doGet(url+"/node/heartbeat?address="+address+"&udpPort="+udpPort+"&httpPort="+httpPort);
-                    if (Integer.parseInt(res) == -1) {
-                        LogUtil.error("Heartbeat error","-1");
+                    //可同时向多个路由中心发送心跳
+                    for (String u : urls) {
+                        //发送心跳
+                        String res = httpUtil.doGet(u + "/node/heartbeat?address=" + address + "&udpPort=" + udpPort + "&httpPort=" + httpPort);
+                        if (Integer.parseInt(res) == -1) {
+                            LogUtil.error("Heartbeat error", "-1");
+                        }
                     }
                 } catch (InterruptedException e) {
                     LogUtil.error("Heartbeat thread error",e.toString());
