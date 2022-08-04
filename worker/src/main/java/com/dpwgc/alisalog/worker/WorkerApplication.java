@@ -8,9 +8,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan("com.dpwgc.worker.store")
-@ComponentScan("com.dpwgc.worker.config")
-@ComponentScan("com.dpwgc.worker.buffer")
-@ComponentScan("com.dpwgc.common.util")
+@ComponentScan("com.dpwgc.alisalog.worker.config")
+@ComponentScan("com.dpwgc.alisalog.worker.buffer")
+@ComponentScan("com.dpwgc.alisalog.common.util")
 @ServletComponentScan
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 public class WorkerApplication {
