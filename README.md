@@ -13,10 +13,11 @@
 ***
 
 ### 项目架构
-* common `通用基础模块`
 * router `路由中心`
 * monitor `监控台`
 * worker `日志收集器`
+* client `客户端`
+* common `通用基础模块`
 
 ***
 

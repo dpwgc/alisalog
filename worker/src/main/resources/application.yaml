@@ -43,6 +43,8 @@ buffer:
   consumer:
     # 消费线程数量
     number: 3
+    # 每次消费多少条消息
+    batch: 30
 
 # MyBatis-Plus配置
 mybatis-plus:

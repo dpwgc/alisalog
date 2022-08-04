@@ -10,12 +10,12 @@ import java.util.List;
 public class LogStore2DB {
 
     @Resource
-    LogMapper logMapper;
+    LogServiceImpl logService;
 
     public void save(List<LogModel> logModelList) {
         for (LogModel logModel : logModelList) {
             logModel.setId(IdGenUtil.uuid());
-            logMapper.insert(logModel);
         }
+        logService.saveBatch(logModelList);
     }
 }
