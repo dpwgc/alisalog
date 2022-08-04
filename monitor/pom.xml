@@ -4,7 +4,7 @@
 
     <parent>
         <artifactId>alisalog</artifactId>
-        <groupId>com.dpwgc</groupId>
+        <groupId>com.dpwgc.alisalog</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -60,7 +60,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.dpwgc</groupId>
+            <groupId>com.dpwgc.alisalog</groupId>
             <artifactId>common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
@@ -84,7 +84,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.4.1</version>
                 <configuration>
-                    <mainClass>com.dpwgc.monitor.MonitorApplication</mainClass>
+                    <mainClass>com.dpwgc.alisalog.monitor.MonitorApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

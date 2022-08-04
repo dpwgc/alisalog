@@ -4,7 +4,7 @@
 
     <parent>
         <artifactId>alisalog</artifactId>
-        <groupId>com.dpwgc</groupId>
+        <groupId>com.dpwgc.alisalog</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
