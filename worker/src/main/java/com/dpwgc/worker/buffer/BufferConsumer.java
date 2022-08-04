@@ -3,16 +3,19 @@ package com.dpwgc.worker.buffer;
 import com.dpwgc.common.util.GzipUtil;
 import com.dpwgc.common.util.JsonUtil;
 import com.dpwgc.common.util.LogUtil;
-import com.dpwgc.worker.store.LogStore;
-import com.dpwgc.worker.udp.LogIn;
+import com.dpwgc.worker.store.LogStore2DB;
+import com.dpwgc.worker.input.LogInput;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
+/**
+ * 缓冲队列消费者
+ */
 @Component
 public class BufferConsumer {
 
     @Resource
-    LogStore logStore;
+    LogStore2DB logStore2DB;
 
     /**
      * 消费者服务
@@ -25,9 +28,9 @@ public class BufferConsumer {
                 try {
                     //解压
                     String log = GzipUtil.uncompress(zipLog);
-                    LogIn logIn = JsonUtil.fromJson(log, LogIn.class);
+                    LogInput logInput = JsonUtil.fromJson(log, LogInput.class);
                     //将日志信息写入chickhouse
-                    logStore.save(logIn.getLogs());
+                    logStore2DB.save(logInput.getLogs());
                 } catch (Exception e) {
                     LogUtil.error("buffer consume error",e.toString());
                 }

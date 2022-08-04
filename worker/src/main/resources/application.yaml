@@ -1,8 +1,10 @@
 server:
-  port: 8000
+  port: 8501
+  servlet:
+    # 路由前缀
+    context-path: /alisa/worker
 
 spring:
-
   application:
     name: worker
   # 数据源配置

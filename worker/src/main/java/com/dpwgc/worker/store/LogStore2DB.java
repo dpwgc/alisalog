@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Component
-public class LogStore {
+public class LogStore2DB {
 
     @Resource
     LogMapper logMapper;

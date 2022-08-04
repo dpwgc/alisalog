@@ -1,4 +1,4 @@
-package com.dpwgc.worker.udp;
+package com.dpwgc.worker.input;
 
 import com.dpwgc.worker.store.LogModel;
 import lombok.Getter;
@@ -8,6 +8,6 @@ import java.util.List;
 
 @Setter
 @Getter
-public class LogIn {
+public class LogInput {
     private List<LogModel> logs;
 }

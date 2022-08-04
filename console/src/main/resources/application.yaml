@@ -1,8 +1,8 @@
 server:
-  port: 8001
+  port: 8502
   servlet:
     # 路由前缀
-    context-path: /alisa
+    context-path: /alisa/console
 
 spring:
   mvc:
@@ -11,7 +11,7 @@ spring:
       matching-strategy: ant_path_matcher
 
   application:
-    name: worker
+    name: console
   # 数据源配置
   datasource:
     # 数据源选择
