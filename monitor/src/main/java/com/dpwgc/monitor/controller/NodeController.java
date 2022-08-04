@@ -1,6 +1,7 @@
 package com.dpwgc.monitor.controller;
 
 import com.dpwgc.monitor.base.ApiResult;
+import com.dpwgc.monitor.model.response.Node;
 import com.dpwgc.monitor.service.NodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Api(value = "集群节点查询接口")
 @RestController
@@ -27,12 +29,12 @@ public class NodeController {
     @ApiImplicitParams({@ApiImplicitParam(name = "username", paramType = "header",dataType = "String" ,required = true),
             @ApiImplicitParam (name = "token", paramType = "header",dataType = "String" ,required = true)})
     @GetMapping(value = "/list")
-    public ApiResult<Object> list() {
-        Object list = nodeService.list();
-        if (list == null) {
+    public ApiResult<List<Node>> list() {
+        List<Node> nodeList = nodeService.list();
+        if (nodeList == null) {
             return ApiResult.getFailureResult("list fail");
         }
-        return ApiResult.getSuccessResult(list);
+        return ApiResult.getSuccessResult(nodeList);
     }
 
 }

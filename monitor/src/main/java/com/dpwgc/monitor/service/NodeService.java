@@ -1,6 +1,7 @@
 package com.dpwgc.monitor.service;
 
 import com.dpwgc.common.util.*;
+import com.dpwgc.monitor.model.response.Node;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class NodeService {
     @Value("${router.url}")
     private String url;
 
-    public Object list() {
+    public List<Node> list() {
         if (url == null || url.length() == 0) {
             return null;
         }
