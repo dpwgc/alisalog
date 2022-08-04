@@ -1,6 +1,6 @@
 package com.dpwgc.console.config.aop;
 
-import com.dpwgc.console.config.CacheConfig;
+import com.dpwgc.console.cache.Cache;
 
 public class TokenCheck {
 
@@ -8,6 +8,6 @@ public class TokenCheck {
         if (username == null && token == null) {
             return false;
         }
-        return token.equals(CacheConfig.get(username));
+        return token.equals(Cache.get(username));
     }
 }

@@ -1,7 +1,7 @@
 server:
   port: 8502
   servlet:
-    # 路由前缀
+    # http url前缀
     context-path: /alisa/console
 
 cache:
@@ -15,6 +15,7 @@ spring:
 
   application:
     name: console
+
   # 数据源配置
   datasource:
     # 数据源选择

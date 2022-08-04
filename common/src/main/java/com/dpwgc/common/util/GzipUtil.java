@@ -1,7 +1,9 @@
 package com.dpwgc.common.util;
 
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,10 +21,14 @@ import java.util.zip.GZIPOutputStream;
  * GZipUtil.uncompressToString(bytes)
  * 压缩率实测原来大小的60%
  */
-@Component
+@Slf4j
+@UtilityClass
 public class GzipUtil {
     /**
      * 将字符串进行gzip压缩
+     *
+     * @param data
+     * @return
      */
     public static String compress(String data) {
         if (data == null || data.length() == 0) {
@@ -35,7 +41,7 @@ public class GzipUtil {
             gzip.write(data.getBytes(StandardCharsets.UTF_8));
             gzip.close();
         } catch (IOException e) {
-            LogUtil.error("GzipUtil compress",e.toString());
+            LogUtil.error("GzipUtil compress error",e.toString());
         }
         return encodeBase64(out.toByteArray());
     }
@@ -51,7 +57,7 @@ public class GzipUtil {
             gzip.write(data);
             gzip.close();
         } catch (IOException e) {
-            LogUtil.error("GzipUtil compress",e.toString());
+            LogUtil.error("GzipUtil compress error",e.toString());
         }
         return encodeBase64(out.toByteArray());
     }
@@ -78,7 +84,7 @@ public class GzipUtil {
                     gzipStream.close();
                 }
             } catch (IOException e) {
-                LogUtil.error("GzipUtil uncompress",e.toString());
+                LogUtil.error("GzipUtil uncompress error",e.toString());
             }
         }
         return new String(out.toByteArray(), StandardCharsets.UTF_8);

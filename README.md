@@ -13,9 +13,9 @@
 
 ### 项目架构
 * common `通用基础模块`
-* router `路由模块`
-* console `控制台模块`
-* worker `日志收集模块`
+* router `路由中心`
+* console `控制台`
+* worker `日志收集器`
 
 ***
 

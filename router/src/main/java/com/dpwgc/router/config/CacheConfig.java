@@ -1,22 +1,23 @@
-package com.dpwgc.console.config;
+package com.dpwgc.router.config;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 控制台本地缓存配置
- * （存储用户登陆token）
+ * 路由中心本地缓存配置
+ * （存储节点列表）
  */
 @Configuration
 public class CacheConfig implements InitializingBean {
 
-    public static ConcurrentHashMap<String,String> CACHE_MAP;
+    @Value("${heartbeat.timeout}")
+    private int timeout;
+    public static int TIMEOUT;
 
-    @Value("${cache.timeout}")
-    private Integer timeout;
-    public static Integer TIMEOUT;
+    public static ConcurrentHashMap<String,Long> CACHE_MAP;
 
     public void afterPropertiesSet() {
         CACHE_MAP = new ConcurrentHashMap<>();

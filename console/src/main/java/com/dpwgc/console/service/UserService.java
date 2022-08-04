@@ -5,7 +5,7 @@ import com.dpwgc.common.constant.Status;
 import com.dpwgc.common.util.IdGenUtil;
 import com.dpwgc.common.util.Md5Util;
 import com.dpwgc.console.base.UserResult;
-import com.dpwgc.console.config.CacheConfig;
+import com.dpwgc.console.cache.Cache;
 import com.dpwgc.console.mapper.UserMapper;
 import com.dpwgc.console.model.request.UserLogin;
 import com.dpwgc.console.model.response.User;
@@ -34,7 +34,7 @@ public class UserService {
             userResult.setInfo(user);
 
             //登陆token写入缓存
-            CacheConfig.set(user.getUsername(), userResult.getToken());
+            Cache.set(user.getUsername(), userResult.getToken());
             return userResult;
         } else {
             return null;
