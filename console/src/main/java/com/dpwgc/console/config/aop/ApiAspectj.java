@@ -2,6 +2,7 @@ package com.dpwgc.console.config.aop;
 
 import com.dpwgc.common.util.JsonUtil;
 import com.dpwgc.common.util.LogUtil;
+import com.dpwgc.console.base.ApiResult;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,9 +25,9 @@ import java.util.Objects;
 public class ApiAspectj {
 
     /**
-     * 切入点 console controller
+     * 切入点 console LogController
      */
-    @Pointcut("execution(public * com.dpwgc.console.controller.*Controller.*(..))")
+    @Pointcut("execution(public * com.dpwgc.console.controller.LogController.*(..))")
     public void logAspect() {
     }
 
@@ -34,11 +35,16 @@ public class ApiAspectj {
      * 记录请求日志
      */
     @Around("logAspect()")
-    public Object aroundLog(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
         // 获取请求参数
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
+
+        //用户登陆token校验
+        if (!TokenCheck.check(request.getHeader("username"),request.getHeader("token"))) {
+            return ApiResult.getFailureResult("login fail");
+        }
 
         // 记录执行时间
         long startTime = System.currentTimeMillis();
@@ -62,7 +68,6 @@ public class ApiAspectj {
                     .timeCost(System.currentTimeMillis() - startTime).build();
 
             LogUtil.info("console request", JsonUtil.toJson(requestLog));
-
         } catch (Exception e) {
             LogUtil.error("console request error", e.toString());
         }

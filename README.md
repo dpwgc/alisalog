@@ -1,4 +1,21 @@
 # Alisa Log
+## 基于ChickHouse存储的日志系统
+
+***
+
+### 实现功能
+当前已完成
+* UDP日志接收
+* HTTP日志接收
+* 日志查询
+
+***
+
+### 项目架构
+* common `通用基础模块`
+* config `统一配置模块`
+* console `控制台模块`
+* worker `日志收集模块`
 
 ***
 
@@ -58,4 +75,44 @@
     }
   ]
 }
+```
+
+### chickhouse数据库表
+
+```clickhouse
+create table user
+(
+    username Nullable(varchar(32)),
+    password Nullable(varchar(32)),
+    auth_level Nullable(int),
+    status Nullable(int),
+    create_time Nullable(datetime),
+    update_time Nullable(datetime)
+)
+    engine = Memory;
+
+
+create table log
+(
+    id Nullable(String),
+    idc Nullable(String),
+    host Nullable(String),
+    env Nullable(String),
+    app_id Nullable(String),
+    trace_id Nullable(String),
+    module Nullable(String),
+    category Nullable(String),
+    sub_category Nullable(String),
+    filter1 Nullable(String),
+    filter2 Nullable(String),
+    file Nullable(String),
+    position Nullable(String),
+    level Nullable(Int32),
+    tag Nullable(String),
+    title Nullable(String),
+    content Nullable(String),
+    remarks Nullable(String),
+    log_time Nullable(Int64)
+)
+    engine = Memory;
 ```

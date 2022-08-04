@@ -1,4 +1,4 @@
-package com.dpwgc.console.base;
+package com.dpwgc.common.constant;
 
 public interface Code {
     Integer SUCCESS = 0;

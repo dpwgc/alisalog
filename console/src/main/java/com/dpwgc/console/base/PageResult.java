@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "分页返回模板")
-public class PageBase<T> {
+public class PageResult<T> {
 
     @ApiModelProperty(value = "数据总数")
     private Long total;
@@ -12,11 +12,11 @@ public class PageBase<T> {
     @ApiModelProperty(value = "当前分页区间内的数据列表")
     private T list;
 
-    public static <T> PageBase<T> getPageBase(Long total, T list) {
-        PageBase<T> pageBase = new PageBase();
-        pageBase.total = total;
-        pageBase.list = list;
-        return pageBase;
+    public static <T> PageResult<T> getPageBase(Long total, T list) {
+        PageResult<T> pageResult = new PageResult();
+        pageResult.total = total;
+        pageResult.list = list;
+        return pageResult;
     }
 
     public void setList(T list) {

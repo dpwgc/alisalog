@@ -4,6 +4,9 @@ server:
     # 路由前缀
     context-path: /alisa/console
 
+cache:
+  timeout: 300000
+
 spring:
   mvc:
     # 兼容Swagger3

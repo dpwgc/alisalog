@@ -1,11 +1,13 @@
-package com.dpwgc.console.model;
+package com.dpwgc.console.model.request;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@ApiModel(value = "日志查询")
 public class QueryLog {
 
     // ----- 机房信息（控制台精确检索） -----
@@ -89,14 +91,14 @@ public class QueryLog {
     // ----- 时间区间检索 -----
 
     @ApiModelProperty(value = "开始时间")
-    private Long LogTimeStart;
+    private long LogTimeStart;
     @ApiModelProperty(value = "结束时间")
-    private Long LogTimeEnd;
+    private long LogTimeEnd;
 
     // ----- 分页检索 -----
 
     @ApiModelProperty(value = "分页起始")
-    private Integer pageIndex;
+    private int pageIndex;
     @ApiModelProperty(value = "分页大小")
-    private Integer pageSize;
+    private int pageSize;
 }

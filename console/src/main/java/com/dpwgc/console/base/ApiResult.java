@@ -1,10 +1,11 @@
 package com.dpwgc.console.base;
 
+import com.dpwgc.common.constant.Code;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "统一返回模板-DTO")
-public class Result<T> {
+public class ApiResult<T> {
 
     @ApiModelProperty(value = "请求处理是否成功")
     protected boolean success;
@@ -22,7 +23,7 @@ public class Result<T> {
         return this.code;
     }
 
-    public Result<T> setCode(Integer code) {
+    public ApiResult<T> setCode(Integer code) {
         this.code = code;
         return this;
     }
@@ -31,12 +32,12 @@ public class Result<T> {
         return this.message;
     }
 
-    public Result<T> setMessage(String message) {
+    public ApiResult<T> setMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public Result() {
+    public ApiResult() {
     }
 
     public boolean isSuccess() {
@@ -51,25 +52,25 @@ public class Result<T> {
         return this.data;
     }
 
-    public Result<T> setData(T data) {
+    public ApiResult<T> setData(T data) {
         this.data = data;
         return this;
     }
 
-    public static <T> Result<T> getSuccessResult(T v) {
-        Result<T> result = new Result();
-        result.setSuccess(true);
-        result.setCode(Code.SUCCESS);
-        result.setMessage("success");
-        result.setData(v);
-        return result;
+    public static <T> ApiResult<T> getSuccessResult(T v) {
+        ApiResult<T> apiResult = new ApiResult();
+        apiResult.setSuccess(true);
+        apiResult.setCode(Code.SUCCESS);
+        apiResult.setMessage("success");
+        apiResult.setData(v);
+        return apiResult;
     }
 
-    public static <T> Result<T> getFailureResult(String msg) {
-        Result<T> result = new Result();
-        result.setSuccess(false);
-        result.setCode(Code.ERROR);
-        result.setMessage(msg);
-        return result;
+    public static <T> ApiResult<T> getFailureResult(String msg) {
+        ApiResult<T> apiResult = new ApiResult();
+        apiResult.setSuccess(false);
+        apiResult.setCode(Code.ERROR);
+        apiResult.setMessage(msg);
+        return apiResult;
     }
 }

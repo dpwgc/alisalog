@@ -1,4 +1,4 @@
-package com.dpwgc.console.model;
+package com.dpwgc.console.model.response;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @ApiModel(value = "日志信息")
 @TableName("log")
-public class LogMessage {
+public class Log {
 
     /**
      * 日志id（uuid）
