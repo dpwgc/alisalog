@@ -22,7 +22,7 @@
     <modules>
         <module>worker</module>
         <module>common</module>
-        <module>config</module>
+        <module>router</module>
         <module>console</module>
     </modules>
 

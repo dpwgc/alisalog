@@ -13,7 +13,7 @@
 
 ### 项目架构
 * common `通用基础模块`
-* config `统一配置模块`
+* router `路由模块`
 * console `控制台模块`
 * worker `日志收集模块`
 
