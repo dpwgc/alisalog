@@ -34,6 +34,9 @@ public class Heartbeat implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
+        if (url == null || url.length() == 0) {
+            return;
+        }
         new Thread(() -> {
             while (true){
                 try {

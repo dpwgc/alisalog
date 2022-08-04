@@ -1,16 +1,13 @@
 server:
   port: 8503
-  servlet:
-    # http url前缀
-    context-path: /alisa/router
-
-# 心跳配置
-heartbeat:
-  # {timeout}秒内没收到worker的心跳，路由中心就从节点列表中删除worker
-  timeout: 6
 
 spring:
   application:
     name: router
+
+# 心跳配置
+heartbeat:
+  # {timeout}秒内没收到worker的心跳，路由中心就从节点列表中删除worker
+  timeout: 8
 
 
