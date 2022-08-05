@@ -49,6 +49,9 @@ public class BufferConsumer {
                 break;
             }
         }
+        if (logModelList.size() == 0) {
+            return;
+        }
         //将日志信息写入chickhouse
         logStore2DB.save(logModelList);
     }

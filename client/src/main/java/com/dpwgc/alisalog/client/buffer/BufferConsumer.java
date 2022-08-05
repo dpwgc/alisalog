@@ -52,6 +52,10 @@ public class BufferConsumer {
             }
         }
 
+        if (logBatch.getLogs().size() == 0) {
+            return;
+        }
+
         //从路由中心获取节点列表
         List<Node> nodeList = null;
         String[] urls = clientConfig.getRouterUrl().split(",");
@@ -66,7 +70,6 @@ public class BufferConsumer {
                 LogUtil.error("consumer http doGet error",e.toString());
             }
         }
-
         SendLog.sendLogByUdp(nodeList.get(0).getAddress(),Integer.parseInt(nodeList.get(0).getUdpPort()),logBatch);
     }
 }

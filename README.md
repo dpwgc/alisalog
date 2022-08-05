@@ -13,7 +13,7 @@
 
 ### 系统架构
 
-![sys](/img/sys.PNG)
+![sys](/img/sys.png)
 
 ***
 
@@ -21,7 +21,7 @@
 * router `路由中心`
 * monitor `监控台`
 * worker `日志收集器`
-* client `简易客户端实现`
+* client `简易客户端实现（未完成）`
 * common `通用基础模块`
 
 ***
