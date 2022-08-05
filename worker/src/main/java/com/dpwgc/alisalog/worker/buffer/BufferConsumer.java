@@ -3,7 +3,7 @@ package com.dpwgc.alisalog.worker.buffer;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
 import com.dpwgc.alisalog.common.model.LogBatch;
-import com.dpwgc.alisalog.worker.input.LogBatch2Model;
+import com.dpwgc.alisalog.worker.input.LogAssembler;
 import com.dpwgc.alisalog.worker.store.LogModel;
 import com.dpwgc.alisalog.worker.store.LogStore2DB;
 import org.springframework.stereotype.Component;
@@ -34,14 +34,19 @@ public class BufferConsumer {
         //要写入chickhouse的日志列表（聚合后）
         List<LogModel> logModelList = new ArrayList<>();
 
+        //如果当前缓冲队列中的消息数量小于minPoll，则不进行消费
+        if (BufferQueue.count() < BufferConfig.CONSUMER_MIN_POLL) {
+            return;
+        }
+
         //批量取出缓冲队列中的日志列表
-        for (int i = 0; i< BufferConfig.CONSUMER_BATCH; i++) {
+        for (int i = 0; i< BufferConfig.CONSUMER_MAX_POLL; i++) {
             //从缓冲区中取出日志列表
             LogBatch logBatch = BufferQueue.poll();
             if(logBatch != null) {
                 try {
                     //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
-                    logModelList.addAll(LogBatch2Model.assembler(logBatch));
+                    logModelList.addAll(LogAssembler.assembler(logBatch));
                 } catch (Exception e) {
                     LogUtil.error("buffer consume error",e.toString());
                 }

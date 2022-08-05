@@ -43,8 +43,10 @@ buffer:
   consumer:
     # 消费线程数量
     number: 3
-    # 每次消费多少条消息
-    batch: 30
+    # 每次最多消费多少条消息
+    maxPoll: 1000
+    # 每次最少消费多少条消息（建议设1000）
+    minPoll: 1
 
 # MyBatis-Plus配置
 mybatis-plus:

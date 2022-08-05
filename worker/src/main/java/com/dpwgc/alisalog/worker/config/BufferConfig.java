@@ -14,10 +14,13 @@ public class BufferConfig implements InitializingBean {
     //缓冲区消费者线程数量
     @Value("${buffer.consumer.number}")
     private int consumerNumber;
-    @Value("${buffer.consumer.batch}")
-    private int consumerBatch;
+    @Value("${buffer.consumer.maxPoll}")
+    private int consumerMaxPoll;
+    @Value("${buffer.consumer.minPoll}")
+    private int consumerMinPoll;
     public static int CONSUMER_NUMBER;
-    public static int CONSUMER_BATCH;
+    public static int CONSUMER_MAX_POLL;
+    public static int CONSUMER_MIN_POLL;
 
     @Resource
     BufferConsumer bufferConsumer;
@@ -26,7 +29,8 @@ public class BufferConfig implements InitializingBean {
     public void afterPropertiesSet() {
         //读取消费者配置
         CONSUMER_NUMBER = consumerNumber;
-        CONSUMER_BATCH = consumerBatch;
+        CONSUMER_MAX_POLL = consumerMaxPoll;
+        CONSUMER_MIN_POLL = consumerMinPoll;
 
         for(int i = 0; i< BufferConfig.CONSUMER_NUMBER; i++) {
             //启动消费者线程

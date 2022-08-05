@@ -16,6 +16,10 @@ public class BufferQueue implements InitializingBean {
     //缓冲区
     public static ConcurrentLinkedQueue<String> BUFFER;
 
+    public static Integer count() {
+        return BUFFER.size();
+    }
+
     public static Boolean add(String e) {
         return BUFFER.add(e);
     }

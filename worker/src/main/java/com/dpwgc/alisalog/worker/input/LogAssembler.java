@@ -7,7 +7,7 @@ import com.dpwgc.alisalog.worker.store.LogModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogBatch2Model {
+public class LogAssembler {
 
     /**
      * LogBatch转LogModel
