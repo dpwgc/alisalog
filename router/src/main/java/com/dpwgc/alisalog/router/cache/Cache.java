@@ -2,7 +2,7 @@ package com.dpwgc.alisalog.router.cache;
 
 import com.dpwgc.alisalog.common.util.JsonUtil;
 import com.dpwgc.alisalog.router.config.CacheConfig;
-import com.dpwgc.alisalog.router.model.Node;
+import com.dpwgc.alisalog.common.model.Node;
 
 import java.util.ArrayList;
 import java.util.List;

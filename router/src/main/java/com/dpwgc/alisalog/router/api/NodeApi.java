@@ -3,7 +3,7 @@ package com.dpwgc.alisalog.router.api;
 import com.dpwgc.alisalog.common.util.JsonUtil;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.router.cache.Cache;
-import com.dpwgc.alisalog.router.model.Node;
+import com.dpwgc.alisalog.common.model.Node;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;

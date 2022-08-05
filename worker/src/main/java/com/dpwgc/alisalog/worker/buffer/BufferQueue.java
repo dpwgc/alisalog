@@ -1,5 +1,8 @@
 package com.dpwgc.alisalog.worker.buffer;
 
+import com.dpwgc.alisalog.common.model.LogBatch;
+import com.dpwgc.alisalog.common.util.GzipUtil;
+import com.dpwgc.alisalog.common.util.JsonUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -17,8 +20,15 @@ public class BufferQueue implements InitializingBean {
         return BUFFER.add(e);
     }
 
-    public static String poll() {
-        return BUFFER.poll();
+    public static LogBatch poll() {
+
+        //判断是否为空
+        String data = BUFFER.poll();
+        if (data == null) {
+            return null;
+        }
+        //解压并返回
+        return JsonUtil.fromJson(GzipUtil.uncompress(data), LogBatch.class);
     }
 
     @Override

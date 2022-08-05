@@ -1,4 +1,4 @@
-package com.dpwgc.alisalog.router.model;
+package com.dpwgc.alisalog.common.model;
 
 public class Node {
     String address;

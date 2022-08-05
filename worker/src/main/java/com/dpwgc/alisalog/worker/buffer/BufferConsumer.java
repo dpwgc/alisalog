@@ -1,10 +1,9 @@
 package com.dpwgc.alisalog.worker.buffer;
 
-import com.dpwgc.alisalog.common.util.GzipUtil;
-import com.dpwgc.alisalog.common.util.JsonUtil;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
-import com.dpwgc.alisalog.worker.input.LogInput;
+import com.dpwgc.alisalog.common.model.LogBatch;
+import com.dpwgc.alisalog.worker.input.LogBatch2Model;
 import com.dpwgc.alisalog.worker.store.LogModel;
 import com.dpwgc.alisalog.worker.store.LogStore2DB;
 import org.springframework.stereotype.Component;
@@ -37,15 +36,12 @@ public class BufferConsumer {
 
         //批量取出缓冲队列中的日志列表
         for (int i = 0; i< BufferConfig.CONSUMER_BATCH; i++) {
-            //从缓冲区中取出压缩日志列表
-            String zipLogs = BufferQueue.poll();
-            if(zipLogs != null) {
+            //从缓冲区中取出日志列表
+            LogBatch logBatch = BufferQueue.poll();
+            if(logBatch != null) {
                 try {
-                    //解压日志列表
-                    String log = GzipUtil.uncompress(zipLogs);
-                    LogInput logInput = JsonUtil.fromJson(log, LogInput.class);
-                    //聚和日志列表
-                    logModelList.addAll(logInput.getLogs());
+                    //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
+                    logModelList.addAll(LogBatch2Model.assembler(logBatch));
                 } catch (Exception e) {
                     LogUtil.error("buffer consume error",e.toString());
                 }

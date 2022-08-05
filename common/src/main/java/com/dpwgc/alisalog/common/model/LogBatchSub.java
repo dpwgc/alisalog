@@ -1,43 +1,16 @@
-package com.dpwgc.alisalog.client.log;
+package com.dpwgc.alisalog.common.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 日志信息
- */
 @Setter
 @Getter
-public class LocalLog {
+public class LogBatchSub {
 
     /**
      * 日志id（uuid）
      */
     private String id;
-
-    // ----- 机房信息（控制台精确检索） -----
-
-    /**
-     * 所属数据中心
-     */
-    private String idc;
-
-    /**
-     * 所属主机名称
-     */
-    private String host;
-
-    /**
-     * 所属环境
-     */
-    private String env;
-
-    // ----- 日志初步定位（控制台精确检索） -----
-
-    /**
-     * 所属应用id
-     */
-    private String appId;
 
     /**
      * 跟踪id
