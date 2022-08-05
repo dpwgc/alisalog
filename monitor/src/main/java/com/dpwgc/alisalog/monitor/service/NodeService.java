@@ -26,7 +26,6 @@ public class NodeService {
         String[] urls = url.split(",");
         for (String u : urls) {
             try {
-                //发送心跳
                 String res = httpUtil.doGet(u + "/node/list");
                 return JsonUtil.fromJson(res,List.class);
             } catch (Exception e) {

@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SendLog {
-    public static void sendLogByUdp(String address, Integer port, LogBatch localLog) {
-        UDPClient.send(address,port, JsonUtil.toJson(localLog));
+    public static void sendLogByUdp(String address, Integer port, LogBatch logBatch) {
+        UDPClient.send(address,port, JsonUtil.toJson(logBatch));
     }
 
     public static void sendLogByHttp(String url, LogBatch localLog) {
