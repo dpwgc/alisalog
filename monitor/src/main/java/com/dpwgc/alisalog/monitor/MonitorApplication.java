@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-@MapperScan("com.dpwgc.monitor.mapper")
+@MapperScan("com.dpwgc.alisalog.monitor.mapper")
 @ComponentScan("com.dpwgc.alisalog.common.util")
 @ComponentScan("com.dpwgc.alisalog.monitor.config")
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
