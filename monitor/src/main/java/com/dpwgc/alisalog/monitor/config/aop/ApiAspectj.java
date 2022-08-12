@@ -2,7 +2,6 @@ package com.dpwgc.alisalog.monitor.config.aop;
 
 import com.dpwgc.alisalog.common.util.JsonUtil;
 import com.dpwgc.alisalog.common.util.LogUtil;
-import com.dpwgc.alisalog.monitor.base.ApiResult;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -40,11 +39,6 @@ public class ApiAspectj {
         // 获取请求参数
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
-
-        //用户登陆token校验
-        if (!TokenCheck.check(request.getHeader("username"),request.getHeader("token"))) {
-            return ApiResult.getFailureResult("login fail");
-        }
 
         // 记录执行时间
         long startTime = System.currentTimeMillis();

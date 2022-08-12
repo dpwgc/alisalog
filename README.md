@@ -148,18 +148,6 @@
 ### chickhouse数据库表
 
 ```clickhouse
-create table user
-(
-    username Nullable(varchar(32)),
-    password Nullable(varchar(32)),
-    auth_level Nullable(int),
-    status Nullable(int),
-    create_time Nullable(datetime),
-    update_time Nullable(datetime)
-)
-    engine = Memory;
-
-
 create table log
 (
     id Nullable(String),
