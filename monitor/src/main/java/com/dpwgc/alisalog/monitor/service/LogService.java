@@ -2,6 +2,8 @@ package com.dpwgc.alisalog.monitor.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.dpwgc.alisalog.common.constant.RedisPrefix;
+import com.dpwgc.alisalog.common.util.RedisUtil;
 import com.dpwgc.alisalog.monitor.base.PageResult;
 import com.dpwgc.alisalog.monitor.model.response.Log;
 import com.dpwgc.alisalog.monitor.mapper.LogMapper;
@@ -10,12 +12,16 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class LogService {
 
     @Resource
     LogMapper logMapper;
+
+    @Resource
+    RedisUtil redisUtil;
 
     public PageResult<List<Log>> search(QueryLog queryLog) {
 
@@ -77,5 +83,47 @@ public class LogService {
         pageResult.setList(logMessagePage.getRecords());
         pageResult.setTotal(logMessagePage.getTotal());
         return pageResult;
+    }
+
+    /**
+     * 获取数据中心列表
+     */
+    public Set<Object> getIdcList() {
+        return redisUtil.sGet(RedisPrefix.IDC_SET);
+    }
+
+    /**
+     * 获取应用id列表
+     */
+    public Set<Object> getAppIdList() {
+        return redisUtil.sGet(RedisPrefix.APP_ID_SET);
+    }
+
+    /**
+     * 根据数据中心名称获取旗下的主机列表
+     */
+    public Set<Object> getHostList(String idc) {
+        return redisUtil.sGet(String.format("%s%s",RedisPrefix.HOST_SET,idc));
+    }
+
+    /**
+     * 根据应用id获取旗下的模块列表
+     */
+    public Set<Object> getModuleList(String appId) {
+        return redisUtil.sGet(String.format("%s%s",RedisPrefix.MODULE_SET,appId));
+    }
+
+    /**
+     * 根据模块名称获取旗下的分类列表
+     */
+    public Set<Object> getCategoryList(String module) {
+        return redisUtil.sGet(String.format("%s%s",RedisPrefix.MODULE_SET,module));
+    }
+
+    /**
+     * 根据分类名称获取旗下的子分类列表
+     */
+    public Set<Object> getSubCategoryList(String category) {
+        return redisUtil.sGet(String.format("%s%s",RedisPrefix.MODULE_SET,category));
     }
 }

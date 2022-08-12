@@ -1,6 +1,6 @@
 package com.dpwgc.alisalog.common.constant;
 
-public interface RedisKey {
+public interface RedisPrefix {
 
     String IDC_SET = "[idc-set]";
 

@@ -1,6 +1,6 @@
 package com.dpwgc.alisalog.worker.buffer;
 
-import com.dpwgc.alisalog.common.constant.RedisKey;
+import com.dpwgc.alisalog.common.constant.RedisPrefix;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
 import com.dpwgc.alisalog.common.model.LogBatch;
@@ -53,18 +53,38 @@ public class BufferConsumer {
             if(logBatch != null) {
                 try {
                     //将日志通用信息写入Redis set，方便监控台查询
-                    redisUtil.sSet(RedisKey.IDC_SET,logBatch.getIdc());
-                    redisUtil.sSet(RedisKey.HOST_SET,logBatch.getHost());
-                    redisUtil.sSet(RedisKey.ENV_SET,logBatch.getEnv());
-                    redisUtil.sSet(RedisKey.APP_ID_SET,logBatch.getAppId());
+
+                    /*
+                     * 级联关系
+                     * idc
+                     *   host
+                     * */
+
+                    redisUtil.sSet(RedisPrefix.IDC_SET,logBatch.getIdc());
+                    //host主机号key的后面加上idc数据中心名称，表明该主机是归属于这个idc的，用于监控台级联查询
+                    redisUtil.sSet(String.format("%s%s", RedisPrefix.HOST_SET,logBatch.getIdc()),logBatch.getHost());
+
+                    redisUtil.sSet(RedisPrefix.APP_ID_SET,logBatch.getAppId());
+                    redisUtil.sSet(RedisPrefix.ENV_SET,logBatch.getEnv());
 
                     //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
                     for (LogModel logModel : LogAssembler.assembler(logBatch)) {
 
-                        //将模块-分类-子分类信息写入redis（级联写入），方便监控台查询
-                        redisUtil.sSet(RedisKey.MODULE_SET,logModel.getModule());
-                        redisUtil.sSet(RedisKey.CATEGORY_SET + logModel.getModule(),logModel.getCategory());
-                        redisUtil.sSet(RedisKey.SUB_CATEGORY_SET + logModel.getCategory(),logModel.getSubCategory());
+                        //将模块-分类-子分类信息写入redis，方便监控台查询
+
+                       /*
+                        * 级联关系
+                        * app
+                        *   module
+                        *       category
+                        *           subCategory
+                        * */
+
+                        //module模块key的后面加上appId，表明该模块是归属于这个app的，用于监控台级联查询
+                        redisUtil.sSet(String.format("%s%s", RedisPrefix.MODULE_SET,logBatch.getAppId()),logModel.getModule());
+                        //category分类key的后面加上module模块名称，表明该分类是归属于这个模块的，用于监控台级联查询，下面的子分类也同理
+                        redisUtil.sSet(String.format("%s%s", RedisPrefix.CATEGORY_SET,logModel.getModule()),logModel.getCategory());
+                        redisUtil.sSet(String.format("%s%s", RedisPrefix.SUB_CATEGORY_SET,logModel.getCategory()),logModel.getSubCategory());
 
                         //加入列表
                         logModelList.add(logModel);
