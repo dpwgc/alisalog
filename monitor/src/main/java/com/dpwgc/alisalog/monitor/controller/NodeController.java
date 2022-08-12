@@ -26,8 +26,6 @@ public class NodeController {
      * 用户登陆
      */
     @ApiOperation(value = "获取worker集群节点列表")
-    @ApiImplicitParams({@ApiImplicitParam(name = "username", paramType = "header",dataType = "String" ,required = true),
-            @ApiImplicitParam (name = "token", paramType = "header",dataType = "String" ,required = true)})
     @GetMapping(value = "/list")
     public ApiResult<List<Node>> list() {
         List<Node> nodeList = nodeService.list();

@@ -53,18 +53,18 @@ public class BufferConsumer {
             if(logBatch != null) {
                 try {
                     //将日志通用信息写入Redis set，方便监控台查询
-                    redisUtil.sSet(RedisKey.IDC_SET_KEY,logBatch.getIdc());
-                    redisUtil.sSet(RedisKey.HOST_SET_KEY,logBatch.getHost());
-                    redisUtil.sSet(RedisKey.ENV_SET_KEY,logBatch.getEnv());
-                    redisUtil.sSet(RedisKey.APP_ID_SET_KEY,logBatch.getAppId());
+                    redisUtil.sSet(RedisKey.IDC_SET,logBatch.getIdc());
+                    redisUtil.sSet(RedisKey.HOST_SET,logBatch.getHost());
+                    redisUtil.sSet(RedisKey.ENV_SET,logBatch.getEnv());
+                    redisUtil.sSet(RedisKey.APP_ID_SET,logBatch.getAppId());
 
                     //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
                     for (LogModel logModel : LogAssembler.assembler(logBatch)) {
 
-                        //将模块-分类-子分类信息写入redis，方便监控台查询
-                        redisUtil.sSet(RedisKey.MODULE_SET_KEY,logModel.getModule());
-                        redisUtil.sSet(RedisKey.CATEGORY_SET_KEY,logModel.getCategory());
-                        redisUtil.sSet(RedisKey.SUB_CATEGORY_SET_KEY,logModel.getSubCategory());
+                        //将模块-分类-子分类信息写入redis（级联写入），方便监控台查询
+                        redisUtil.sSet(RedisKey.MODULE_SET,logModel.getModule());
+                        redisUtil.sSet(RedisKey.CATEGORY_SET + logModel.getModule(),logModel.getCategory());
+                        redisUtil.sSet(RedisKey.SUB_CATEGORY_SET + logModel.getCategory(),logModel.getSubCategory());
 
                         //加入列表
                         logModelList.add(logModel);

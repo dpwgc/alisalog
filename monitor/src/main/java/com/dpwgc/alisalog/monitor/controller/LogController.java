@@ -6,8 +6,6 @@ import com.dpwgc.alisalog.monitor.model.request.QueryLog;
 import com.dpwgc.alisalog.monitor.model.response.Log;
 import com.dpwgc.alisalog.monitor.service.LogService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +22,16 @@ public class LogController {
     LogService logService;
 
     /**
-     * 日志查询
+     * 日志检索
      */
     @ApiOperation(value = "日志查询")
-    @ApiImplicitParams({@ApiImplicitParam (name = "username", paramType = "header",dataType = "String" ,required = true),
-                        @ApiImplicitParam (name = "token", paramType = "header",dataType = "String" ,required = true)})
-    @GetMapping(value = "/query")
-    public ApiResult<PageResult<List<Log>>> query(QueryLog queryLog) {
+    @GetMapping(value = "/search")
+    public ApiResult<PageResult<List<Log>>> search(QueryLog queryLog) {
 
         //appId必填
         if (queryLog.getAppId() == null || queryLog.getAppId().length() == 0) {
             return ApiResult.getFailureResult("appId null");
         }
-        return ApiResult.getSuccessResult(logService.query(queryLog));
+        return ApiResult.getSuccessResult(logService.search(queryLog));
     }
 }

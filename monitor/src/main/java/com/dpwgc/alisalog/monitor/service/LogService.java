@@ -17,7 +17,7 @@ public class LogService {
     @Resource
     LogMapper logMapper;
 
-    public PageResult<List<Log>> query(QueryLog queryLog) {
+    public PageResult<List<Log>> search(QueryLog queryLog) {
 
         //分页
         Page<Log> page = new Page<>(queryLog.getPageIndex(), queryLog.getPageSize());
