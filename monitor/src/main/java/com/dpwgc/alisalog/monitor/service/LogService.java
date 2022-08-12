@@ -117,13 +117,13 @@ public class LogService {
      * 根据模块名称获取旗下的分类列表
      */
     public Set<Object> getCategoryList(String module) {
-        return redisUtil.sGet(String.format("%s%s",RedisPrefix.MODULE_SET,module));
+        return redisUtil.sGet(String.format("%s%s",RedisPrefix.CATEGORY_SET,module));
     }
 
     /**
      * 根据分类名称获取旗下的子分类列表
      */
     public Set<Object> getSubCategoryList(String category) {
-        return redisUtil.sGet(String.format("%s%s",RedisPrefix.MODULE_SET,category));
+        return redisUtil.sGet(String.format("%s%s",RedisPrefix.SUB_CATEGORY_SET,category));
     }
 }
