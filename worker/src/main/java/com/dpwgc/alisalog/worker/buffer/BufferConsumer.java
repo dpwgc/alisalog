@@ -1,11 +1,13 @@
 package com.dpwgc.alisalog.worker.buffer;
 
+import com.dpwgc.alisalog.common.constant.RedisKey;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
 import com.dpwgc.alisalog.common.model.LogBatch;
 import com.dpwgc.alisalog.worker.input.LogAssembler;
 import com.dpwgc.alisalog.worker.store.LogModel;
 import com.dpwgc.alisalog.worker.store.LogStore2DB;
+import com.dpwgc.alisalog.common.util.RedisUtil;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -19,6 +21,9 @@ public class BufferConsumer {
 
     @Resource
     LogStore2DB logStore2DB;
+
+    @Resource
+    RedisUtil redisUtil;
 
     /**
      * 消费者服务
@@ -41,12 +46,30 @@ public class BufferConsumer {
 
         //批量取出缓冲队列中的日志列表
         for (int i = 0; i< BufferConfig.CONSUMER_MAX_POLL; i++) {
+
             //从缓冲区中取出日志列表
             LogBatch logBatch = BufferQueue.poll();
+
             if(logBatch != null) {
                 try {
+                    //将日志通用信息写入Redis set，方便监控台查询
+                    redisUtil.sSet(RedisKey.IDC_SET_KEY,logBatch.getIdc());
+                    redisUtil.sSet(RedisKey.HOST_SET_KEY,logBatch.getHost());
+                    redisUtil.sSet(RedisKey.ENV_SET_KEY,logBatch.getEnv());
+                    redisUtil.sSet(RedisKey.APP_ID_SET_KEY,logBatch.getAppId());
+
                     //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
-                    logModelList.addAll(LogAssembler.assembler(logBatch));
+                    for (LogModel logModel : LogAssembler.assembler(logBatch)) {
+
+                        //将模块-分类-子分类信息写入redis，方便监控台查询
+                        redisUtil.sSet(RedisKey.MODULE_SET_KEY,logModel.getModule());
+                        redisUtil.sSet(RedisKey.CATEGORY_SET_KEY,logModel.getCategory());
+                        redisUtil.sSet(RedisKey.SUB_CATEGORY_SET_KEY,logModel.getSubCategory());
+
+                        //加入列表
+                        logModelList.add(logModel);
+                    }
+
                 } catch (Exception e) {
                     LogUtil.error("buffer consume error",e.toString());
                 }

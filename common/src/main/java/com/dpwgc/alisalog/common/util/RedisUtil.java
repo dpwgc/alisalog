@@ -1,4 +1,4 @@
-package com.dpwgc.alisalog.worker.store;
+package com.dpwgc.alisalog.common.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * Redis工具类
  */
 @Component
-public class RedisClient {
+public class RedisUtil {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
