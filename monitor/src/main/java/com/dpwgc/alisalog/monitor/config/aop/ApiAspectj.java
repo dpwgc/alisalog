@@ -24,9 +24,9 @@ import java.util.Objects;
 public class ApiAspectj {
 
     /**
-     * 切入点 console LogController
+     * 切入点 MonitorController
      */
-    @Pointcut("execution(public * com.dpwgc.alisalog.monitor.controller.LogController.*(..))")
+    @Pointcut("execution(public * com.dpwgc.alisalog.monitor.controller.MonitorController.*(..))")
     public void logAspect() {
     }
 
@@ -61,9 +61,9 @@ public class ApiAspectj {
                     //耗时
                     .timeCost(System.currentTimeMillis() - startTime).build();
 
-            LogUtil.info("console request", JsonUtil.toJson(requestLog));
+            LogUtil.info("Monitor request", JsonUtil.toJson(requestLog));
         } catch (Exception e) {
-            LogUtil.error("console request error", e.toString());
+            LogUtil.error("Monitor request error", e.toString());
         }
         return result;
     }
