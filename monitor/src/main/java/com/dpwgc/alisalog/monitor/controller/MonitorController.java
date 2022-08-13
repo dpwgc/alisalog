@@ -9,15 +9,14 @@ import com.dpwgc.alisalog.monitor.service.MonitorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
 @Api(value = "监控台接口")
+@CrossOrigin
 @RestController
 @RequestMapping("/monitor")
 public class MonitorController {
