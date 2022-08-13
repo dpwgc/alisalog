@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
-@Api(value = "日志查询接口")
+@Api(value = "监控台接口")
 @RestController
 @RequestMapping("/monitor")
 public class MonitorController {
@@ -78,6 +78,7 @@ public class MonitorController {
     @ApiOperation(value = "获取环境列表")
     @GetMapping(value = "/env/list")
     public ApiResult<Set<Object>> getEnvList() {
+
         return ApiResult.getSuccessResult(monitorService.getEnvList());
     }
 
