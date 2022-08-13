@@ -39,7 +39,7 @@ public class MonitorController {
     }
 
     /**
-     * 用户登陆
+     * 获取worker集群节点列表
      */
     @ApiOperation(value = "获取worker集群节点列表")
     @GetMapping(value = "/node/list")
