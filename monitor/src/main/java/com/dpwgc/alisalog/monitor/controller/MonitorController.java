@@ -73,6 +73,15 @@ public class MonitorController {
     }
 
     /**
+     * 获取环境列表
+     */
+    @ApiOperation(value = "获取环境列表")
+    @GetMapping(value = "/env/list")
+    public ApiResult<Set<Object>> getEnvList() {
+        return ApiResult.getSuccessResult(monitorService.getEnvList());
+    }
+
+    /**
      * 根据数据中心名称获取旗下的主机列表
      */
     @ApiOperation(value = "根据数据中心名称获取旗下的主机列表")

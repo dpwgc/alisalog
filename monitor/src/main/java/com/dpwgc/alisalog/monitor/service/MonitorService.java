@@ -127,6 +127,13 @@ public class MonitorService {
     }
 
     /**
+     * 获取环境列表
+     */
+    public Set<Object> getEnvList() {
+        return redisUtil.sGet(RedisPrefix.ENV_SET);
+    }
+
+    /**
      * 根据数据中心名称获取旗下的主机列表
      */
     public Set<Object> getHostList(String idc) {
