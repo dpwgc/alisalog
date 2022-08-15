@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -96,7 +97,7 @@ public class MonitorService {
         return pageResult;
     }
 
-    public List<Node> getNodeList() {
+    public List<Node> getWorkerNodeList() {
         if (url == null || url.length() == 0) {
             return null;
         }
@@ -110,6 +111,18 @@ public class MonitorService {
             }
         }
         return null;
+    }
+
+    public List<String> getRouterNodeList() {
+        List<String> routerList = new ArrayList<>();
+        if (url == null || url.length() == 0) {
+            return null;
+        }
+        String[] urls = url.split(",");
+        for (String u : urls) {
+            routerList.add(String.format("%s%s",u,"/node/list"));
+        }
+        return routerList;
     }
 
     /**

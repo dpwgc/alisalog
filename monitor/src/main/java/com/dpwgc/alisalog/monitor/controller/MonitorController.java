@@ -42,9 +42,22 @@ public class MonitorController {
      * 获取worker集群节点列表
      */
     @ApiOperation(value = "获取worker集群节点列表")
-    @GetMapping(value = "/node/list")
-    public ApiResult<List<Node>> getNodeList() {
-        List<Node> nodeList = monitorService.getNodeList();
+    @GetMapping(value = "/worker/node/list")
+    public ApiResult<List<Node>> getWorkerNodeList() {
+        List<Node> nodeList = monitorService.getWorkerNodeList();
+        if (nodeList == null) {
+            return ApiResult.getFailureResult("list fail");
+        }
+        return ApiResult.getSuccessResult(nodeList);
+    }
+
+    /**
+     * 获取router集群节点列表
+     */
+    @ApiOperation(value = "获取router集群节点列表")
+    @GetMapping(value = "/router/node/list")
+    public ApiResult<List<String>> getRouterNodeList() {
+        List<String> nodeList = monitorService.getRouterNodeList();
         if (nodeList == null) {
             return ApiResult.getFailureResult("list fail");
         }
