@@ -120,5 +120,5 @@ public class LogModel {
     /**
      * 日志存储至DB的时间（用于设置ChickHouse数据删除时间TTL，不向前台展示）
      */
-    private Date storeTime;
+    private Long storeTime;
 }

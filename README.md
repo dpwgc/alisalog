@@ -170,7 +170,8 @@ create table log
     title Nullable(String),
     content Nullable(String),
     remarks Nullable(String),
-    log_time Nullable(Int64)
+    log_time Nullable(Int64),
+    store_time Nullable(DateTime)
 )
     engine = Memory;
 ```

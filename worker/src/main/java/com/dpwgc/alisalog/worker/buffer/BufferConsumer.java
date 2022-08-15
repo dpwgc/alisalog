@@ -4,7 +4,7 @@ import com.dpwgc.alisalog.common.constant.RedisPrefix;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
 import com.dpwgc.alisalog.common.model.LogBatch;
-import com.dpwgc.alisalog.worker.input.LogAssembler;
+import com.dpwgc.alisalog.worker.store.LogAssembler;
 import com.dpwgc.alisalog.worker.store.LogModel;
 import com.dpwgc.alisalog.worker.store.LogStore2DB;
 import com.dpwgc.alisalog.common.util.RedisUtil;
@@ -109,7 +109,7 @@ public class BufferConsumer {
                 localSet.put(subCategorySetKey,new ArrayList<>());
                 localSet.get(subCategorySetKey).add(logModel.getSubCategory());
 
-                //加入列表
+                //加入logMode列表
                 logModelList.add(logModel);
             }
 
