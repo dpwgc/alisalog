@@ -1,8 +1,5 @@
 server:
   port: 8502
-  servlet:
-    # 路由前缀
-    context-path: /alisalog/v1
 
 # 本地缓存（存储用户登录token）
 cache:
