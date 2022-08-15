@@ -24,15 +24,23 @@ public class UDPListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         new Thread(() -> {
             //等待spring boot加载完后再运行UDP监听线程（避免配置文件中的参数来不及加载进内存）
-            while (true){
+            for (int i=0;i<10;i++){
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if (i == 4 && UDPConfig.UDP_PORT == 0) {
+                    LogUtil.error("UDP listener start error","UDP port null");
+                    break;
+                }
                 if(UDPConfig.UDP_PORT != 0) {
+                    LogUtil.info("UDP listener thread",String.format("%s%s","UDP listener port: ",UDPConfig.UDP_PORT));
+                    //开启监听
+                    listener();
                     break;
                 }
             }
-            LogUtil.info("UDP listener thread","UDP listener port: "+UDPConfig.UDP_PORT);
-
-            //开启监听
-            listener();
 
         }).start();
     }
