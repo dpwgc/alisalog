@@ -106,9 +106,10 @@ public class MonitorController {
      */
     @ApiOperation(value = "根据模块名称获取旗下的分类列表")
     @GetMapping(value = "/category/list")
-    public ApiResult<Set<Object>> getCategoryList(@ApiParam("模块名称") String module) {
+    public ApiResult<Set<Object>> getCategoryList(@ApiParam("应用id") String appId,
+                                                  @ApiParam("模块名称") String module) {
 
-        return ApiResult.getSuccessResult(monitorService.getCategoryList(module));
+        return ApiResult.getSuccessResult(monitorService.getCategoryList(appId,module));
     }
 
     /**
@@ -116,8 +117,10 @@ public class MonitorController {
      */
     @ApiOperation(value = "根据分类名称获取旗下的子分类列表")
     @GetMapping(value = "/subCategory/list")
-    public ApiResult<Set<Object>> getSubCategoryList(@ApiParam("分类名称") String category) {
+    public ApiResult<Set<Object>> getSubCategoryList(@ApiParam("应用id") String appId,
+                                                     @ApiParam("模块名称") String module,
+                                                     @ApiParam("分类名称") String category) {
 
-        return ApiResult.getSuccessResult(monitorService.getSubCategoryList(category));
+        return ApiResult.getSuccessResult(monitorService.getSubCategoryList(appId,module,category));
     }
 }

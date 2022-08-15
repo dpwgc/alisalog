@@ -2,6 +2,7 @@ package com.dpwgc.alisalog.worker.input;
 
 import com.dpwgc.alisalog.common.model.LogBatch;
 import com.dpwgc.alisalog.common.model.LogBatchSub;
+import com.dpwgc.alisalog.common.util.IdGenUtil;
 import com.dpwgc.alisalog.worker.store.LogModel;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class LogAssembler {
         List<LogBatchSub> logBatchSubList = logBatch.getLogs();
         for (LogBatchSub logBatchSub : logBatchSubList) {
             LogModel logModel = new LogModel();
+
+            //生成id
+            logModel.setId(IdGenUtil.uuid());
 
             logModel.setIdc(logBatch.getIdc());
             logModel.setHost(logBatch.getHost());
@@ -37,7 +41,11 @@ public class LogAssembler {
             logModel.setTitle(logBatchSub.getTitle());
             logModel.setContent(logBatchSub.getContent());
             logModel.setRemarks(logBatchSub.getRemarks());
-            logModel.setLogTime(logBatchSub.getLogTime());
+
+            if (logBatchSub.getLogTime() == null || logBatchSub.getLogTime() == 0) {
+                logModel.setLogTime(System.currentTimeMillis());
+            }
+
             logModelList.add(logModel);
         }
         return logModelList;

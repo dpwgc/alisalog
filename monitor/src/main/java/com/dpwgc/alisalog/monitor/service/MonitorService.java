@@ -137,27 +137,27 @@ public class MonitorService {
      * 根据数据中心名称获取旗下的主机列表
      */
     public Set<Object> getHostList(String idc) {
-        return redisUtil.sGet(String.format("%s%s",RedisPrefix.HOST_SET,idc));
+        return redisUtil.sGet(String.format("%s-%s",RedisPrefix.HOST_SET,idc));
     }
 
     /**
      * 根据应用id获取旗下的模块列表
      */
     public Set<Object> getModuleList(String appId) {
-        return redisUtil.sGet(String.format("%s%s",RedisPrefix.MODULE_SET,appId));
+        return redisUtil.sGet(String.format("%s-%s", RedisPrefix.MODULE_SET,appId));
     }
 
     /**
      * 根据模块名称获取旗下的分类列表
      */
-    public Set<Object> getCategoryList(String module) {
-        return redisUtil.sGet(String.format("%s%s",RedisPrefix.CATEGORY_SET,module));
+    public Set<Object> getCategoryList(String appId,String module) {
+        return redisUtil.sGet(String.format("%s-%s-%s", RedisPrefix.CATEGORY_SET,appId,module));
     }
 
     /**
      * 根据分类名称获取旗下的子分类列表
      */
-    public Set<Object> getSubCategoryList(String category) {
-        return redisUtil.sGet(String.format("%s%s",RedisPrefix.SUB_CATEGORY_SET,category));
+    public Set<Object> getSubCategoryList(String appId,String module,String category) {
+        return redisUtil.sGet(String.format("%s-%s-%s-%s", RedisPrefix.SUB_CATEGORY_SET,appId,module,category));
     }
 }
