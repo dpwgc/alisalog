@@ -21,6 +21,11 @@ public class Heartbeat {
             return;
         }
         String[] urls = ClusterConfig.URL.split(",");
+
+        for (int i=0;i<urls.length;i++) {
+            //拼接http请求链接
+            urls[i] = String.format("%s%s%s%s%s%s",urls[i] + "/worker/node/heartbeat?address=",ClusterConfig.ADDRESS,"&udpPort=",ClusterConfig.UDP_PORT,"&httpPort=",ClusterConfig.HTTP_PORT);
+        }
         new Thread(() -> {
             while (true){
                 try {
@@ -29,7 +34,7 @@ public class Heartbeat {
                     //可同时向多个路由中心发送心跳
                     for (String u : urls) {
                         //发送心跳
-                        String res = httpUtil.doGet(u + "/node/heartbeat?address=" + ClusterConfig.ADDRESS + "&udpPort=" + ClusterConfig.UDP_PORT + "&httpPort=" + ClusterConfig.HTTP_PORT);
+                        String res = httpUtil.doGet(u);
                         if (Integer.parseInt(res) == -1) {
                             LogUtil.error("Heartbeat error", "-1");
                         }

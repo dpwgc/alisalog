@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 节点操作接口
+ * Worker节点相关接口
  */
 @RestController
-@RequestMapping("/node")
-public class NodeApi {
+@RequestMapping("/worker")
+public class WorkerApi {
 
     /**
-     * 接收服务节点的心跳注册
+     * 接收Worker节点的心跳注册
      * @param address 节点IP
      * @param udpPort 节点的udp端口
      * @param httpPort 节点的http端口
      * @return Integer
      */
-    @RequestMapping("/heartbeat")
+    @RequestMapping("/node/heartbeat")
     public Integer heartbeat(String address,String udpPort,String httpPort){
         try {
             Node node = new Node();
@@ -39,11 +39,11 @@ public class NodeApi {
     }
 
     /**
-     * 获取节点列表
+     * 获取Worker节点列表
      * @return List<String>
      */
-    @RequestMapping("/list")
-    public List<Node> listNode(){
+    @RequestMapping("/node/list")
+    public List<Node> getWorkerNodeList(){
         try {
             return Cache.list();
         } catch (Exception e) {
