@@ -6,6 +6,7 @@ import com.dpwgc.alisalog.common.util.IdGenUtil;
 import com.dpwgc.alisalog.worker.store.LogModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LogAssembler {
@@ -14,8 +15,12 @@ public class LogAssembler {
      * LogBatch转LogModel
      */
     public static List<LogModel> assembler(LogBatch logBatch) {
+
+        Date nowDate = new Date();
+
         List<LogModel> logModelList = new ArrayList<>();
         List<LogBatchSub> logBatchSubList = logBatch.getLogs();
+
         for (LogBatchSub logBatchSub : logBatchSubList) {
             LogModel logModel = new LogModel();
 
@@ -45,6 +50,8 @@ public class LogAssembler {
             if (logBatchSub.getLogTime() == null || logBatchSub.getLogTime() == 0) {
                 logModel.setLogTime(System.currentTimeMillis());
             }
+
+            logModel.setStoreTime(nowDate);
 
             logModelList.add(logModel);
         }

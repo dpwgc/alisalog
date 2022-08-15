@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * 日志信息
  */
@@ -114,4 +116,9 @@ public class LogModel {
      * 记录时间（控制台区间检索）
      */
     private Long logTime;
+
+    /**
+     * 日志存储至DB的时间（用于设置ChickHouse数据删除时间TTL，不向前台展示）
+     */
+    private Date storeTime;
 }
