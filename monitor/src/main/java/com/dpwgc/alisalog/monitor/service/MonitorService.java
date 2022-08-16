@@ -79,8 +79,11 @@ public class MonitorService {
             queryWrapper.eq("tag", queryLog.getTag());
         }
         if (queryLog.getKeyword() != null && queryLog.getKeyword().length() > 0){
-            queryWrapper.like("title", queryLog.getKeyword());
-            queryWrapper.like("content", queryLog.getKeyword());
+            queryWrapper.like("title", queryLog.getKeyword())
+                    .or().like("content", queryLog.getKeyword())
+                    .or().like("tag", queryLog.getKeyword())
+                    .or().like("filter1", queryLog.getKeyword())
+                    .or().like("filter2", queryLog.getKeyword());
         }
 
         queryWrapper.ge("log_time", queryLog.getLogTimeStart());
