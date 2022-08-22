@@ -1,6 +1,5 @@
 package com.dpwgc.alisalog.worker.buffer;
 
-import com.dpwgc.alisalog.common.constant.RedisPrefix;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.common.util.RedisKeyUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
@@ -11,10 +10,7 @@ import com.dpwgc.alisalog.worker.store.LogStore2DB;
 import com.dpwgc.alisalog.common.util.RedisUtil;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 缓冲队列消费者
@@ -54,6 +50,9 @@ public class BufferConsumer {
             return;
         }
 
+        //本地set，用于暂时存储分类级联信息
+        Map<String, Set<String>> localSet = new HashMap<>();
+
         //批量取出缓冲队列中的日志列表
         for (int i = 0; i< BufferConfig.CONSUMER_MAX_POLL; i++) {
 
@@ -73,16 +72,16 @@ public class BufferConsumer {
              *   host
              * */
 
-            redisUtil.sSet(RedisPrefix.IDC_SET,logBatch.getIdc());
             //host主机号key的后面加上idc数据中心名称，表明该主机是归属于这个idc的，用于监控台级联查询
-            redisUtil.sSet(RedisKeyUtil.getHostListKey(logBatch.getIdc()),logBatch.getHost());
+            String hostSetKey = RedisKeyUtil.getHostListKey(logBatch.getIdc());
+            localSet.computeIfAbsent(hostSetKey, k -> new HashSet<>());
+            localSet.get(hostSetKey).add(logBatch.getHost());
 
-            //保存appId与env
-            redisUtil.sSet(RedisPrefix.APP_ID_SET,logBatch.getAppId());
-            redisUtil.sSet(RedisPrefix.ENV_SET,logBatch.getEnv());
-
-            //本地set，用于暂时存储分类级联信息
-            Map<String,List<String>> localSet = new HashMap<>();
+            //校验appId与token
+            if (!logBatch.getToken().equals(redisUtil.get(RedisKeyUtil.getAppKey(logBatch.getAppId())))){
+                //如果校验失败则跳过处理
+                continue;
+            }
 
             //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
             for (LogModel logModel : LogAssembler.assembler(logBatch)) {
@@ -99,26 +98,28 @@ public class BufferConsumer {
 
                 //module模块集合key的后面加上appId，表明该模块是归属于这个app的，用于监控台级联查询
                 String moduleSetKey = RedisKeyUtil.getModuleListKey(logBatch.getAppId());
-                localSet.put(moduleSetKey,new ArrayList<>());
+                localSet.computeIfAbsent(moduleSetKey, k -> new HashSet<>());
                 localSet.get(moduleSetKey).add(logModel.getModule());
+
                 //category分类集合key的后面加上appId+module名称，表明该分类是归属于这个模块的，下面的子分类也同理
                 String categorySetKey = RedisKeyUtil.getCategoryListKey(logBatch.getAppId(),logModel.getModule());
-                localSet.put(categorySetKey,new ArrayList<>());
+                localSet.computeIfAbsent(categorySetKey, k -> new HashSet<>());
                 localSet.get(categorySetKey).add(logModel.getCategory());
+
                 //subCategory子分类集合key的后面加上appId+module名称+category名称，表明该子分类是归属于这个分类的
                 String subCategorySetKey = RedisKeyUtil.getSubCategoryListKey(logBatch.getAppId(),logModel.getModule(),logModel.getCategory());
-                localSet.put(subCategorySetKey,new ArrayList<>());
+                localSet.computeIfAbsent(subCategorySetKey, k -> new HashSet<>());
                 localSet.get(subCategorySetKey).add(logModel.getSubCategory());
 
                 //加入logMode列表
                 logModelList.add(logModel);
             }
-
-            //将localSet中的信息写入redis
-            for (String key : localSet.keySet()) {
-                redisUtil.sSet(key,localSet.get(key));
-            }
         }
+        //将localSet中的信息写入redis
+        for (String key : localSet.keySet()) {
+            redisUtil.sSet(key, localSet.get(key).toArray());
+        }
+
         if (logModelList.size() > 0) {
             //将日志信息写入chickHouse
             logStore2DB.save(logModelList);

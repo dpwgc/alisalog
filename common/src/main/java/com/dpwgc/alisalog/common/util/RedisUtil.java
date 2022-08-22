@@ -18,7 +18,7 @@ public class RedisUtil {
     /**
      * 用来判断key是否存在
      */
-    public boolean hasKey(String key){
+    public Boolean hasKey(String key){
         if(key==null){
             return false;
         }else{
@@ -33,14 +33,48 @@ public class RedisUtil {
      * @param time 时间(秒)
      * @return
      */
-    public boolean expire(String key, long time) {
+    public Boolean expire(String key, long time) {
         try {
             if (time > 0) {
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("redis expire error", e.getMessage());
+            return false;
+        }
+    }
+
+    //============================String=============================
+
+    /**
+     * 普通缓存获取
+     *
+     * @param key 键
+     * @return 值
+     */
+    public Object get(String key) {
+        try {
+            return key == null ? null : redisTemplate.opsForValue().get(key);
+        } catch (Exception e) {
+            LogUtil.error("redis string get error", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 普通缓存放入
+     *
+     * @param key   键
+     * @param value 值
+     * @return true成功 false失败
+     */
+    public Boolean set(String key, Object value) {
+        try {
+            redisTemplate.opsForValue().set(key, value);
+            return true;
+        } catch (Exception e) {
+            LogUtil.error("redis [string] set error", e.getMessage());
             return false;
         }
     }
@@ -57,7 +91,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("redis [set] get error", e.getMessage());
             return null;
         }
     }
@@ -69,11 +103,11 @@ public class RedisUtil {
      * @param value 值
      * @return true 存在 false不存在
      */
-    public boolean sHasKey(String key, Object value) {
+    public Boolean sHasKey(String key, Object value) {
         try {
-            return redisTemplate.opsForSet().isMember(key, value);
+            return redisTemplate.opsForSet().isMember(key, value) != null;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error("redis [set] has key error", e.getMessage());
             return false;
         }
     }
@@ -85,12 +119,12 @@ public class RedisUtil {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSet(String key, Object... values) {
+    public Long sSet(String key, Object... values) {
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+            LogUtil.error("redis [set] set error", e.getMessage());
+            return 0L;
         }
     }
 
@@ -101,13 +135,12 @@ public class RedisUtil {
      * @param values 值 可以是多个
      * @return 移除的个数
      */
-    public long setRemove(String key, Object... values) {
+    public Long setRemove(String key, Object... values) {
         try {
-            Long count = redisTemplate.opsForSet().remove(key, values);
-            return count;
+            return redisTemplate.opsForSet().remove(key, values);
         } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
+            LogUtil.error("redis [set] remove error", e.getMessage());
+            return 0L;
         }
     }
 }

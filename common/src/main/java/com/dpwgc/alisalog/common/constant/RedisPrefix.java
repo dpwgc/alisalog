@@ -2,6 +2,8 @@ package com.dpwgc.alisalog.common.constant;
 
 public interface RedisPrefix {
 
+    String APP_KEY = "[app-key]";
+
     String IDC_SET = "[idc-set]";
 
     String HOST_SET = "[host-set]";

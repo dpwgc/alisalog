@@ -15,6 +15,7 @@ public class LogClient {
     private static String env;
     private static String host;
     private static String appId;
+    private static String token;
 
     /**
      * 日志收集客户端初始化
@@ -23,12 +24,14 @@ public class LogClient {
      * @param env 环境
      * @param host 主机名
      * @param appId 应用id
+     * @param token 应用token
      */
-    public LogClient(String idc, String env, String host, String appId) {
+    public LogClient(String idc, String env, String host, String appId,String token) {
         LogClient.idc = idc;
         LogClient.env = env;
         LogClient.host = host;
         LogClient.appId = appId;
+        LogClient.token = token;
     }
 
     /**
@@ -43,6 +46,7 @@ public class LogClient {
         logBatch.setEnv(env);
         logBatch.setHost(host);
         logBatch.setAppId(appId);
+        logBatch.setToken(token);
         logBatch.setLogs(logBatchSubList);
         UDPClient.send(address,port, JsonUtil.toJson(logBatch));
     }
@@ -59,6 +63,7 @@ public class LogClient {
         logBatch.setEnv(env);
         logBatch.setHost(host);
         logBatch.setAppId(appId);
+        logBatch.setToken(token);
         logBatch.setLogs(logBatchSubList);
         return;
     }

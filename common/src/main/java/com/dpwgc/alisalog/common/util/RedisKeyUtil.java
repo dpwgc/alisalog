@@ -5,6 +5,13 @@ import com.dpwgc.alisalog.common.constant.RedisPrefix;
 public class RedisKeyUtil {
 
     /**
+     * app key
+     */
+    public static String getAppKey(String appId) {
+        return String.format("%s-%s", RedisPrefix.APP_KEY,appId);
+    }
+
+    /**
      * 主机列表key
      */
     public static String getHostListKey(String idc) {

@@ -98,6 +98,9 @@ public class MonitorService {
         return pageResult;
     }
 
+    /**
+     * 获取worker节点列表
+     */
     public List<Node> getWorkerNodeList() {
         if (url == null || url.length() == 0) {
             return null;
@@ -114,6 +117,9 @@ public class MonitorService {
         return null;
     }
 
+    /**
+     * 获取router节点列表
+     */
     public List<String> getRouterNodeList() {
         if (url == null || url.length() == 0) {
             return null;

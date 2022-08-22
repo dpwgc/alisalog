@@ -30,6 +30,11 @@ public class LogBatch {
     private String appId;
 
     /**
+     * 该批次日志-所属应用的权限令牌token
+     */
+    private String token;
+
+    /**
      * 日志详细数据列表
      */
     private List<LogBatchSub> logs;
