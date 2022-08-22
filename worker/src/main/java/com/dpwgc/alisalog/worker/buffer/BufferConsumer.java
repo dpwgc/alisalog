@@ -2,6 +2,7 @@ package com.dpwgc.alisalog.worker.buffer;
 
 import com.dpwgc.alisalog.common.constant.RedisPrefix;
 import com.dpwgc.alisalog.common.util.LogUtil;
+import com.dpwgc.alisalog.common.util.RedisKeyUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
 import com.dpwgc.alisalog.common.model.LogBatch;
 import com.dpwgc.alisalog.worker.store.LogAssembler;
@@ -74,7 +75,7 @@ public class BufferConsumer {
 
             redisUtil.sSet(RedisPrefix.IDC_SET,logBatch.getIdc());
             //host主机号key的后面加上idc数据中心名称，表明该主机是归属于这个idc的，用于监控台级联查询
-            redisUtil.sSet(String.format("%s-%s", RedisPrefix.HOST_SET,logBatch.getIdc()),logBatch.getHost());
+            redisUtil.sSet(RedisKeyUtil.getHostListKey(logBatch.getIdc()),logBatch.getHost());
 
             //保存appId与env
             redisUtil.sSet(RedisPrefix.APP_ID_SET,logBatch.getAppId());
@@ -97,15 +98,15 @@ public class BufferConsumer {
                  * */
 
                 //module模块集合key的后面加上appId，表明该模块是归属于这个app的，用于监控台级联查询
-                String moduleSetKey = String.format("%s-%s", RedisPrefix.MODULE_SET,logBatch.getAppId());
+                String moduleSetKey = RedisKeyUtil.getModuleListKey(logBatch.getAppId());
                 localSet.put(moduleSetKey,new ArrayList<>());
                 localSet.get(moduleSetKey).add(logModel.getModule());
                 //category分类集合key的后面加上appId+module名称，表明该分类是归属于这个模块的，下面的子分类也同理
-                String categorySetKey = String.format("%s-%s-%s", RedisPrefix.CATEGORY_SET,logBatch.getAppId(),logModel.getModule());
+                String categorySetKey = RedisKeyUtil.getCategoryListKey(logBatch.getAppId(),logModel.getModule());
                 localSet.put(categorySetKey,new ArrayList<>());
                 localSet.get(categorySetKey).add(logModel.getCategory());
                 //subCategory子分类集合key的后面加上appId+module名称+category名称，表明该子分类是归属于这个分类的
-                String subCategorySetKey = String.format("%s-%s-%s-%s", RedisPrefix.SUB_CATEGORY_SET,logBatch.getAppId(),logModel.getModule(),logModel.getCategory());
+                String subCategorySetKey = RedisKeyUtil.getSubCategoryListKey(logBatch.getAppId(),logModel.getModule(),logModel.getCategory());
                 localSet.put(subCategorySetKey,new ArrayList<>());
                 localSet.get(subCategorySetKey).add(logModel.getSubCategory());
 
