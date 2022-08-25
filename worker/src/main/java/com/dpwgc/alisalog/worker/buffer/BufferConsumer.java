@@ -1,5 +1,6 @@
 package com.dpwgc.alisalog.worker.buffer;
 
+import com.dpwgc.alisalog.common.constant.RedisPrefix;
 import com.dpwgc.alisalog.common.util.LogUtil;
 import com.dpwgc.alisalog.common.util.RedisKeyUtil;
 import com.dpwgc.alisalog.worker.config.BufferConfig;
@@ -72,16 +73,25 @@ public class BufferConsumer {
              *   host
              * */
 
+            //所属idc记录
+            String idcSetKey = RedisPrefix.IDC_SET;
+            localSet.computeIfAbsent(idcSetKey, k -> new HashSet<>());
+            localSet.get(idcSetKey).add(logBatch.getIdc());
+
             //host主机号key的后面加上idc数据中心名称，表明该主机是归属于这个idc的，用于监控台级联查询
             String hostSetKey = RedisKeyUtil.getHostListKey(logBatch.getIdc());
             localSet.computeIfAbsent(hostSetKey, k -> new HashSet<>());
             localSet.get(hostSetKey).add(logBatch.getHost());
 
-            //校验appId与token
-            if (!logBatch.getToken().equals(redisUtil.get(RedisKeyUtil.getAppKey(logBatch.getAppId())))){
-                //如果校验失败则跳过处理
-                continue;
-            }
+            //所属appid记录
+            String appIdSetKey = RedisPrefix.APP_ID_SET;
+            localSet.computeIfAbsent(appIdSetKey, k -> new HashSet<>());
+            localSet.get(appIdSetKey).add(logBatch.getAppId());
+
+            //所属env记录
+            String envSetKey = RedisPrefix.APP_ID_SET;
+            localSet.computeIfAbsent(envSetKey, k -> new HashSet<>());
+            localSet.get(envSetKey).add(logBatch.getEnv());
 
             //将LogBatch批量日志信息展开，转换成LogModel列表，然后聚和多批次日志列表
             for (LogModel logModel : LogAssembler.assembler(logBatch)) {
@@ -115,7 +125,8 @@ public class BufferConsumer {
                 logModelList.add(logModel);
             }
         }
-        //将localSet中的信息写入redis
+
+        //将localSet中的分类信息写入redis
         for (String key : localSet.keySet()) {
             redisUtil.sSet(key, localSet.get(key).toArray());
         }

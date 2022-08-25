@@ -1,23 +1,19 @@
 server:
   port: 8502
 
-# 本地缓存（存储用户登录token）
-cache:
-  # 缓存过期时间（秒）
-  timeout: 300000
-
 router:
   # 地址（多个路由中心地址用','隔开，例：http://127.0.0.1:8503,http://127.0.0.2:8503,http://127.0.0.3:8503）
   url: http://127.0.0.1:8503
 
 spring:
+
+  application:
+    name: monitor
+
   mvc:
     # 兼容Swagger3
     pathmatch:
       matching-strategy: ant_path_matcher
-
-  application:
-    name: monitor
 
   # 数据源配置
   datasource:
@@ -50,7 +46,7 @@ spring:
 mybatis-plus:
   configuration:
     # 使用jdbc的getGenerateKeys获取数据库自增主键值
-    use-generated-keys: true
+    use-generated-keys: false
     # 使用列标签替换列别名 默认true
     use-column-label: true
     # 开启驼峰命名转换：Table{create_time} -> Entity{createTime}

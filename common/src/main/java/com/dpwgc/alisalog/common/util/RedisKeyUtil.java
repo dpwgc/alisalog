@@ -5,35 +5,28 @@ import com.dpwgc.alisalog.common.constant.RedisPrefix;
 public class RedisKeyUtil {
 
     /**
-     * app key
-     */
-    public static String getAppKey(String appId) {
-        return String.format("%s-%s", RedisPrefix.APP_KEY,appId);
-    }
-
-    /**
-     * 主机列表key
+     * idc数据中心旗下的主机列表key
      */
     public static String getHostListKey(String idc) {
         return String.format("%s-%s", RedisPrefix.HOST_SET,idc);
     }
 
     /**
-     * 模块列表key
+     * app旗下的模块列表key
      */
     public static String getModuleListKey(String appId) {
         return String.format("%s-%s", RedisPrefix.MODULE_SET,appId);
     }
 
     /**
-     * 分类列表key
+     * 模块下面的分类列表key
      */
     public static String getCategoryListKey(String appId,String module) {
         return String.format("%s-%s-%s", RedisPrefix.CATEGORY_SET,appId,module);
     }
 
     /**
-     * 子分类列表key
+     * 分类下面的子分类列表key
      */
     public static String getSubCategoryListKey(String appId,String module,String category) {
         return String.format("%s-%s-%s-%s", RedisPrefix.SUB_CATEGORY_SET,appId,module,category);
