@@ -78,7 +78,7 @@ public class MonitorService {
         if (queryLog.getKeyword() != null && queryLog.getKeyword().length() > 0){
             queryWrapper.like("title", queryLog.getKeyword())
                     .or().like("content", queryLog.getKeyword())
-                    .or().like("tag", queryLog.getKeyword())
+                    .or().like("remarks", queryLog.getKeyword())
                     .or().like("filter1", queryLog.getKeyword())
                     .or().like("filter2", queryLog.getKeyword());
         }
