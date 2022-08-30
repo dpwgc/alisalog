@@ -10,7 +10,7 @@
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>./logs/runtime.%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>./logs/worker/runtime.%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <maxHistory>60</maxHistory>
             <maxFileSize>10MB</maxFileSize>
