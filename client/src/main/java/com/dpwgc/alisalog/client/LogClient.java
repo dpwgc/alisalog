@@ -1,9 +1,11 @@
-package com.dpwgc.alisalog.client.log;
+package com.dpwgc.alisalog.client;
 
-import com.dpwgc.alisalog.client.udp.UDPClient;
 import com.dpwgc.alisalog.common.model.LogBatch;
 import com.dpwgc.alisalog.common.model.LogBatchSub;
+import com.dpwgc.alisalog.common.util.HttpUtil;
 import com.dpwgc.alisalog.common.util.JsonUtil;
+import com.dpwgc.alisalog.common.util.UDPUtil;
+
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class LogClient {
      * @param appId 应用id
      * @param token 应用token
      */
-    public LogClient(String idc, String env, String host, String appId,String token) {
+    public LogClient(String idc, String env, String host, String appId, String token) {
         LogClient.idc = idc;
         LogClient.env = env;
         LogClient.host = host;
@@ -36,35 +38,44 @@ public class LogClient {
 
     /**
      * UDP发送日志
-     * @param address 地址
+     * @param address IP地址
      * @param port UDP端口
      * @param logBatchSubList 日志列表
      */
     public static void sendLogByUdp(String address, Integer port, List<LogBatchSub> logBatchSubList) {
+
         LogBatch logBatch = new LogBatch();
+
         logBatch.setIdc(idc);
         logBatch.setEnv(env);
         logBatch.setHost(host);
         logBatch.setAppId(appId);
         logBatch.setToken(token);
+
         logBatch.setLogs(logBatchSubList);
-        UDPClient.send(address,port, JsonUtil.toJson(logBatch));
+
+        UDPUtil.send(address,port, JsonUtil.toJson(logBatch));
     }
 
     /**
      * HTTP发送日志
-     * @param address 地址
-     * @param port HTTP端口
+     * @param url HTTP请求地址
      * @param logBatchSubList 日志列表
      */
-    public static void sendLogByHttp(String address, Integer port, List<LogBatchSub> logBatchSubList) {
+    public static boolean sendLogByHttp(String url, List<LogBatchSub> logBatchSubList) {
+
         LogBatch logBatch = new LogBatch();
+
         logBatch.setIdc(idc);
         logBatch.setEnv(env);
         logBatch.setHost(host);
         logBatch.setAppId(appId);
         logBatch.setToken(token);
+
         logBatch.setLogs(logBatchSubList);
-        return;
+
+        String res = HttpUtil.doPost(url,JsonUtil.toJson(logBatch));
+
+        return res.equals("0");
     }
 }

@@ -47,21 +47,18 @@ public class ApiAspectj {
 
         //记录日志
         try {
-            RequestLog requestLog = RequestLog.builder()
-                    //访问人的ip
-                    .ip(request.getRemoteAddr())
-                    //请求路径
-                    .url(request.getRequestURL().toString())
-                    //处理的类
-                    .classMethod(String.format("%s.%s", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName()))
-                    //处理的方法类型
-                    .httpMethod(request.getMethod())
-                    //请求参数
-                    .requestParams(getRequestParam(joinPoint))
-                    //耗时
-                    .timeCost(System.currentTimeMillis() - startTime).build();
-
-            LogUtil.info("Monitor request", JsonUtil.toJson(requestLog));
+            //如果是日志检索请求，则记录执行时间
+            if (joinPoint.getSignature().getName().equals("getLogList")) {
+                RequestLog requestLog = RequestLog.builder()
+                        //访问人的ip
+                        .ip(request.getRemoteAddr())
+                        //请求参数
+                        .requestParams(getRequestParam(joinPoint))
+                        //耗时
+                        .timeCost(String.format("%s %s",(System.currentTimeMillis() - startTime),"ms")).build();
+                //写入日志
+                LogUtil.info("Monitor request", JsonUtil.toJson(requestLog));
+            }
         } catch (Exception e) {
             LogUtil.error("Monitor request error", e.toString());
         }

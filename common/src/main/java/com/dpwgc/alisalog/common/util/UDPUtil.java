@@ -1,14 +1,12 @@
-package com.dpwgc.alisalog.client.udp;
-
-import com.dpwgc.alisalog.common.util.LogUtil;
+package com.dpwgc.alisalog.common.util;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class UDPClient {
+public class UDPUtil {
 
-    public static void send(String address,Integer port,String data) {
+    public static void send(String address, Integer port, String data) {
         try {
             //创建InetAddress对象，封装自己的IP地址
             InetAddress inet=InetAddress.getByName(address);
