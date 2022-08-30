@@ -21,6 +21,9 @@
         </encoder>
     </appender>
 
+    <!-- 屏蔽ck插入数据时报的warn日志 -->
+    <logger name="com.clickhouse.jdbc" level="error"/>
+
     <root level="info">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
